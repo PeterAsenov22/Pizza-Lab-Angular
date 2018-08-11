@@ -1,5 +1,7 @@
 import { AppRoutingModule } from './app.routing'
+import { AuthenticationModule } from './components/authentication/authentication.module'
 import { BrowserModule } from '@angular/platform-browser'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgModule } from '@angular/core'
 import { ProductsModule } from './components/products/products.module'
 import { RouterModule } from '../../node_modules/@angular/router'
@@ -15,7 +17,9 @@ import { HomeComponent } from './components/home/home.component'
   ],
   imports: [
     AppRoutingModule,
+    AuthenticationModule,
     BrowserModule,
+    NgbModule.forRoot(),
     ProductsModule,
     RouterModule,
     SharedModule
