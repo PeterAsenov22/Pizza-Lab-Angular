@@ -3,7 +3,11 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
+import { Store, select } from '@ngrx/store'
 
+import { AppState } from '../../store/app.state'
+import { Authenticate, Deauthenticate } from '../../store/authentication/authentication.actions'
+import AuthenticationDataModel from '../../models/AuthenticationDataModel'
 import { LoginModel } from '../../../components/authentication/models/LoginModel'
 import { RegisterModel } from '../../../components/authentication/models/RegisterModel'
 
@@ -12,15 +16,27 @@ const registerUrl = 'http://localhost:5000/auth/signup'
 
 @Injectable()
 export class AuthenticationService {
+  private username: string
+  private isUserAdmin: boolean
+  private isUserAuthenticated: boolean
+
   constructor (private http: HttpClient,
     private toastr: ToastrService,
+    private store: Store<AppState>,
     private router: Router) {
     if (localStorage.getItem('authtoken')) {
       const authtoken = localStorage.getItem('authtoken')
       try {
         const decoded = jwt_decode(authtoken)
         if (!this.isTokenExpired(decoded)) {
-          // dispatch action to save token
+          const authData = new AuthenticationDataModel(authtoken, decoded.username, decoded.isAdmin, true)
+          this.store.dispatch(new Authenticate(authData))
+          this.store.pipe(select(state => state.authentication.isAdmin))
+            .subscribe(data => this.isUserAdmin = data)
+          this.store.pipe(select(state => state.authentication.isAuthenticated))
+            .subscribe(data => this.isUserAuthenticated = data)
+          this.store.pipe(select(state => state.authentication.username))
+            .subscribe(data => this.username = data)
         }
       } catch (err) {
         this.toastr.error('Invalid token', 'Warning!')
@@ -38,21 +54,21 @@ export class AuthenticationService {
 
   logout() {
     localStorage.clear()
-    // dispatch action to remove token
+    this.store.dispatch(new Deauthenticate())
     this.toastr.success('Logout successful!')
     this.router.navigate(['/'])
   }
 
   isAuthenticated () {
-    // check the store
+    return this.isUserAuthenticated
   }
 
   isAdmin () {
-    // check the store
+    return this.isUserAdmin
   }
 
   getUsername () {
-    // get it from the store
+    return this.username
   }
 
   private isTokenExpired(token): boolean {

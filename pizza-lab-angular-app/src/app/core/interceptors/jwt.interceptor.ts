@@ -8,19 +8,24 @@ import {
 } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { Router } from '@angular/router'
+import { Store, select } from '@ngrx/store'
 import { tap } from 'rxjs/operators'
 import { ToastrService } from 'ngx-toastr'
 
-import { AuthenticationService } from '../services/authentication/authentication.service'
+import { AppState } from '../store/app.state'
+import AuthenticationDataModel from '../models/AuthenticationDataModel'
+import { Authenticate } from '../store/authentication/authentication.actions'
 
 @Injectable()
 export class JWTInterceptor implements HttpInterceptor {
+  private authtoken: string
+
   constructor (
-    private authService: AuthenticationService,
     private toastr: ToastrService,
-    private router: Router) {
-  }
+    private store: Store<AppState> ) {
+      this.store.pipe(select(state => state.authentication.token))
+        .subscribe(data => this.authtoken = data)
+    }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.endsWith('/auth/login') || req.url.endsWith('/auth/signup')) {
@@ -32,7 +37,7 @@ export class JWTInterceptor implements HttpInterceptor {
     } else {
       req = req.clone({
         setHeaders: {
-          'Authorization': `Bearer ${}`,
+          'Authorization': `Bearer ${this.authtoken}`,
           'Content-Type': 'application/json'
         }
       })
@@ -55,7 +60,6 @@ export class JWTInterceptor implements HttpInterceptor {
   private saveToken (data) {
     if (this.decodeToken(data.token)) {
       const authtoken = data.token
-      // dispatch action to the store
       localStorage.setItem('authtoken', authtoken)
       this.toastr.success(data.message)
       // this.router.navigate(['/furniture/all'])
@@ -66,7 +70,9 @@ export class JWTInterceptor implements HttpInterceptor {
 
   private decodeToken (token) {
     try {
-      jwt_decode(token)
+      const decoded = jwt_decode(token)
+      const authData = new AuthenticationDataModel(token, decoded.username, decoded.isAdmin, true)
+      this.store.dispatch(new Authenticate(authData))
       return true
     } catch {
       return false
