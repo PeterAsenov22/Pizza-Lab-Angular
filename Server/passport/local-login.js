@@ -24,11 +24,10 @@ module.exports = new PassportLocalStrategy({
 
       const payload = {
         sub: user.id,
-        data: {
-          username: user.username,
-          roles: user.roles
-        }
+        username: user.username,
+        isAdmin: user.roles.includes('Admin')
       }
+
       const token = jwt.sign(payload, 's0m3 r4nd0m str1ng', {expiresIn: '1h'})
 
       return done(null, token)
