@@ -24,6 +24,13 @@ export class AuthenticationService {
     private toastr: ToastrService,
     private store: Store<AppState>,
     private router: Router) {
+    this.store.pipe(select(state => state.authentication.isAdmin))
+      .subscribe(data => this.isUserAdmin = data)
+    this.store.pipe(select(state => state.authentication.isAuthenticated))
+      .subscribe(data => this.isUserAuthenticated = data)
+    this.store.pipe(select(state => state.authentication.username))
+      .subscribe(data => this.username = data)
+
     if (localStorage.getItem('authtoken')) {
       const authtoken = localStorage.getItem('authtoken')
       try {
@@ -31,12 +38,6 @@ export class AuthenticationService {
         if (!this.isTokenExpired(decoded)) {
           const authData = new AuthenticationDataModel(authtoken, decoded.username, decoded.isAdmin, true)
           this.store.dispatch(new Authenticate(authData))
-          this.store.pipe(select(state => state.authentication.isAdmin))
-            .subscribe(data => this.isUserAdmin = data)
-          this.store.pipe(select(state => state.authentication.isAuthenticated))
-            .subscribe(data => this.isUserAuthenticated = data)
-          this.store.pipe(select(state => state.authentication.username))
-            .subscribe(data => this.username = data)
         }
       } catch (err) {
         this.toastr.error('Invalid token', 'Warning!')

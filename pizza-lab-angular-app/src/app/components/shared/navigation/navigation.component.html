@@ -11,16 +11,28 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Menu</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
         <a class="nav-link" href="#">My Orders</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
+        <a class="nav-link" href="#">Cart</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
+        <a class="nav-link" href="#">Create New Pizza</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
+        <a class="nav-link" href="#">Pending Orders</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!authService.isAuthenticated()">
           <a class="nav-link border-none" (click)="openLoginModal()" href="javascript:void(0)">Login <fa-icon [icon]="faLogin"></fa-icon></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!authService.isAuthenticated()">
         <a class="nav-link border-none" (click)="openRegisterModal()" href="javascript:void(0)">Register <fa-icon [icon]="faRegister"></fa-icon></a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated()">
+          <a class="nav-link border-none" (click)="logout()" href="javascript:void(0)">Logout <fa-icon [icon]="faLogout"></fa-icon></a>
       </li>
     </ul>
   </nav>

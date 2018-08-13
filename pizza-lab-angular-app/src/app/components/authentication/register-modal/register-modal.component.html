@@ -13,8 +13,8 @@
           formControlName="email"
           [ngClass]="{ 'is-invalid': email.touched && email.errors }" />
         <div *ngIf="email.errors" class="invalid-feedback">
-          <div *ngIf="email.errors.required">Email is required!</div>
-          <div *ngIf="email.errors.email">Please enter valid email!</div>
+          <div *ngIf="email.errors?.required">Email is required!</div>
+          <div *ngIf="email.errors?.email">Please enter valid email!</div>
         </div>
       </div>
       <div class="form-group">
@@ -25,8 +25,8 @@
           formControlName="username"
           [ngClass]="{ 'is-invalid': username.touched && username.errors }" />
         <div *ngIf="username.errors" class="invalid-feedback">
-          <div *ngIf="username.errors.required">Username is required!</div>
-          <div *ngIf="username.errors.minlength">Username must be at least 4 characters long!</div>
+          <div *ngIf="username.errors?.required">Username is required!</div>
+          <div *ngIf="username.errors?.minlength">Username must be at least 4 characters long!</div>
         </div>
       </div>
       <div class="form-group">
@@ -37,8 +37,8 @@
           formControlName="password"
           [ngClass]="{ 'is-invalid': password.touched && password.errors }" >
         <div *ngIf="password.errors" class="invalid-feedback">
-          <div *ngIf="password.errors.required">Password is required!</div>
-          <div *ngIf="password.errors.minlength">Password must be at least 8 characters long!</div>
+          <div *ngIf="password.errors?.required">Password is required!</div>
+          <div *ngIf="password.errors?.minlength">Password must be at least 8 characters long!</div>
         </div>
       </div>
       <div class="form-group">
@@ -47,9 +47,9 @@
           type="password" 
           class="form-control" 
           formControlName="confirmPassword"
-          [ngClass]="{ 'is-invalid': confirmPassword.touched && confirmPassword.errors }" >
+          [ngClass]="{ 'is-invalid': confirmPassword.touched && (confirmPassword.errors || registerForm.errors?.mismatch) }" >
         <div *ngIf="confirmPassword.errors || registerForm.errors?.mismatch" class="invalid-feedback">
-          <div *ngIf="confirmPassword.errors.required">Confirm Password is required!</div>
+          <div *ngIf="confirmPassword.errors?.required">Confirm Password is required!</div>
           <div *ngIf="registerForm.errors?.mismatch">Passwords do not match!</div>
         </div>
       </div>

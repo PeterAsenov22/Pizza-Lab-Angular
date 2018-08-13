@@ -9,7 +9,7 @@ import { ProductsModule } from './components/products/products.module'
 import { RouterModule } from '../../node_modules/@angular/router'
 import { ServicesModule } from './core/services/services.module'
 import { SharedModule } from './components/shared/shared.module'
-import { StoreModule } from '@ngrx/store'
+import { StoreModule, ActionReducer } from '@ngrx/store'
 import { ToastrModule } from 'ngx-toastr'
 
 import { AppComponent } from './app.component'
@@ -17,6 +17,17 @@ import { HomeComponent } from './components/home/home.component'
 
 import { appReducers } from './core/store/app.reducers'
 import { JWTInterceptor, ErrorInterceptor } from './core/interceptors'
+
+import { AppState } from './core/store/app.state'
+import { storeLogger } from 'ngrx-store-logger'
+
+import { environment } from '../environments/environment'
+
+export function logger(reducer: ActionReducer<AppState>): any {
+  return storeLogger()(reducer)
+}
+
+export const metaReducers = environment.production ? [] : [logger]
 
 @NgModule({
   declarations: [
@@ -34,7 +45,7 @@ import { JWTInterceptor, ErrorInterceptor } from './core/interceptors'
     RouterModule,
     ServicesModule,
     SharedModule,
-    StoreModule.forRoot(appReducers),
+    StoreModule.forRoot(appReducers, {metaReducers}),
     ToastrModule.forRoot()
   ],
   providers: [

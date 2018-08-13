@@ -62,7 +62,6 @@ export class JWTInterceptor implements HttpInterceptor {
       const authtoken = data.token
       localStorage.setItem('authtoken', authtoken)
       this.toastr.success(data.message)
-      // this.router.navigate(['/furniture/all'])
     } else {
       this.toastr.error('Invalid token', 'Warning!')
     }

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core'
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 import { LoginModalComponent } from '../../authentication/login-modal/login-modal.component'
 import { RegisterModalComponent } from '../../authentication/register-modal/register-modal.component'
+
+import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
 
 @Component({
   selector: 'app-navigation',
@@ -13,9 +15,12 @@ import { RegisterModalComponent } from '../../authentication/register-modal/regi
 })
 export class NavigationComponent {
   public faLogin = faSignInAlt
+  public faLogout = faSignOutAlt
   public faRegister = faUserPlus
 
-  constructor (private modalService: NgbModal) {
+  constructor (
+    public authService: AuthenticationService,
+    private modalService: NgbModal ) {
   }
 
   openRegisterModal() {
@@ -34,5 +39,9 @@ export class NavigationComponent {
     }).catch((error) => {
       console.log(error)
     })
+  }
+
+  logout () {
+    this.authService.logout()
   }
 }

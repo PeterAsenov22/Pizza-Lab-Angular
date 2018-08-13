@@ -6,7 +6,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
 import { RegisterModel } from '../models/RegisterModel'
-import { ToastrService } from '../../../../../node_modules/ngx-toastr';
 
 @Component({
   selector: 'app-register-modal',
@@ -19,8 +18,7 @@ export class RegisterModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     public formBuilder: FormBuilder,
-    private authService: AuthenticationService,
-    private toastrService: ToastrService
+    private authService: AuthenticationService
   ) {
     this.createForm()
   }
@@ -44,7 +42,7 @@ export class RegisterModalComponent {
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
+      confirmPassword: ['', [Validators.required]]
     }, { validator: CustomValidators.passwordsDoMatch.bind(this)})
   }
 }
