@@ -2,6 +2,7 @@ import { AppRoutingModule } from './app.routing'
 import { AuthenticationModule } from './components/authentication/authentication.module'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BrowserModule } from '@angular/platform-browser'
+import { GuardsModule } from './core/guards/guards.module'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgModule } from '@angular/core'
@@ -39,6 +40,7 @@ export const metaReducers = environment.production ? [] : [logger]
     AuthenticationModule,
     BrowserAnimationsModule,
     BrowserModule,
+    GuardsModule,
     HttpClientModule,
     NgbModule.forRoot(),
     ProductsModule,
