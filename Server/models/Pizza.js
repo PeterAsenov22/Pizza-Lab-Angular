@@ -27,7 +27,7 @@ module.exports.seedPizzas = () => {
         description: 'Pepperoni is an American variety of salami, made from cured pork and beef mixed together and seasoned with paprika or other chili pepper.',
         price: 9.90,
         weight: 450,
-        image: 'https://vignette.wikia.nocookie.net/oddsquad/images/f/f4/Pizza.png/revision/latest?cb=20170203223737',
+        image: 'https://pizzamuensingen.ch/wp-content/uploads/2017/10/pizza_adven_zestypepperoni.png',
         likes: [],
         reviews: []
       },
