@@ -1,32 +1,21 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
+import { Observable } from 'rxjs'
+
+import { ProductModel } from '../models/ProductModel'
 
 @Component({
   selector: 'app-product-list',
-  templateUrl: './product-list.component.html'
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
-  public products
+export class ProductListComponent {
+  public pageSize: number = 6
+  public currentPage: number = 1
 
-  ngOnInit() {
-    this.products = [{
-      name: 'Capricosa'
-    },
-    {
-      name: 'Venezia'
-    },
-    {
-      name: 'Torino'
-    },
-    {
-      name: 'Capricosa'
-    },
-    {
-      name: 'Venezia'
-    },
-    {
-      name: 'Torino'
-    }
-  ]
+  @Input() public products$: Observable<ProductModel[]>
+
+  changePage (page) {
+    this.currentPage = page
   }
 }
 

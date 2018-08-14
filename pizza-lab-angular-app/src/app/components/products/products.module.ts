@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
+import { NgxPaginationModule } from 'ngx-pagination'
 
 import { productComponents } from '.'
 
@@ -8,7 +9,8 @@ import { productComponents } from '.'
     ...productComponents
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxPaginationModule
   ],
   exports: [
     ...productComponents

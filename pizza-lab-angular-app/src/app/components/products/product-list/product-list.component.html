@@ -1,5 +1,31 @@
-<div class="row">
-  <div *ngFor="let product of products" class="card col-lg-4 col-sm-6">
-    <app-product-card [product]='product'></app-product-card>
+<div class="container">
+  <div class="row">
+    <div *ngIf='products$ | async as products'>
+      <div *ngIf="products.length > 0; else notFound" class="row space-top">
+        <div *ngFor="let product of products | paginate: {
+          id: 'allProducts',
+          itemsPerPage: pageSize,
+          currentPage: currentPage
+        }" class="card col-lg-4 col-sm-6">
+          <app-product-card [product]='product'></app-product-card>
+        </div>
+      </div>
+      <ng-template #notFound>
+        <span>Currently there are no existing products.</span>
+      </ng-template>
+    </div>
   </div>
+  <pagination-controls
+    class="paginator"
+    id="allProducts"
+    (pageChange)="changePage($event)"
+    maxSize="9"
+    directionLinks="true"
+    autoHide="true"
+    previousLabel="Previous"
+    nextLabel="Next"
+    screenReaderPaginationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page">
+  </pagination-controls>
 </div>
