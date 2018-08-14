@@ -11,7 +11,7 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.css']
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
   public faLogin = faSignInAlt
@@ -26,18 +26,14 @@ export class NavigationComponent {
   openRegisterModal() {
     const registerRef = this.modalService.open(RegisterModalComponent)
     registerRef.result.then((result) => {
-      console.log(result)
     }).catch((error) => {
-      console.log(error)
     })
   }
 
   openLoginModal() {
     const loginRef = this.modalService.open(LoginModalComponent)
     loginRef.result.then((result) => {
-      console.log(result)
     }).catch((error) => {
-      console.log(error)
     })
   }
 

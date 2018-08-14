@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BrowserModule } from '@angular/platform-browser'
 import { GuardsModule } from './core/guards/guards.module'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { MDBBootstrapModule } from 'angular-bootstrap-md'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgModule } from '@angular/core'
 import { ProductsModule } from './components/products/products.module'
@@ -42,6 +43,7 @@ export const metaReducers = environment.production ? [] : [logger]
     BrowserModule,
     GuardsModule,
     HttpClientModule,
+    MDBBootstrapModule.forRoot(),
     NgbModule.forRoot(),
     ProductsModule,
     RouterModule,
