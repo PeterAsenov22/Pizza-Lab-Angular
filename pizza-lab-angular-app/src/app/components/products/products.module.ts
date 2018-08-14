@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { NgxPaginationModule } from 'ngx-pagination'
 
 import { productComponents } from '.'
+import { ProductsRoutingModule } from './products.routing'
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { productComponents } from '.'
   ],
   imports: [
     CommonModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ProductsRoutingModule
   ],
   exports: [
     ...productComponents

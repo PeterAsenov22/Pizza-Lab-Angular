@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { ProductModel } from '../models/ProductModel'
+import { Router } from '@angular/router'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
 
@@ -11,5 +12,11 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
 export class ProductCardComponent {
   @Input() public product: ProductModel
 
-  constructor (public authService: AuthenticationService) { }
+  constructor (
+    public authService: AuthenticationService,
+    private router: Router) { }
+
+  navigateToDetails () {
+    this.router.navigate([`/product/details/${this.product._id}`])
+  }
 }

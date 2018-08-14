@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Store, select } from '@ngrx/store'
 
-import { AppState } from '../../../core/store/app.state'
-import { ProductModel } from '../models/ProductModel'
-import { ProductsService } from '../../../core/services/products/products.service'
+import { AppState } from '../../core/store/app.state'
+import { ProductModel } from '../products/models/ProductModel'
+import { ProductsService } from '../../core/services/products/products.service'
 
 @Component({
   selector: 'app-menu',
