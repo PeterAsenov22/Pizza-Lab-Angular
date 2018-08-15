@@ -11,12 +11,12 @@ import { LoginModel } from '../models/LoginModel'
   templateUrl: './login-modal.component.html'
 })
 export class LoginModalComponent {
-  public loginForm
-  public faWindowClose = faWindowClose
+  protected loginForm
+  protected faWindowClose = faWindowClose
 
   constructor(
-    public activeModal: NgbActiveModal,
-    public formBuilder: FormBuilder,
+    protected activeModal: NgbActiveModal,
+    protected formBuilder: FormBuilder,
     private authService: AuthenticationService
   ) {
     this.createForm()
@@ -26,6 +26,10 @@ export class LoginModalComponent {
   get password() { return this.loginForm.get('password') }
 
   public submitForm() {
+    if (this.loginForm.invalid) {
+      return
+    }
+
     const formValue = this.loginForm.value
     const loginModel = new LoginModel(formValue.email, formValue.password)
     this.authService.login(loginModel)

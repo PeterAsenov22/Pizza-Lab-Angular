@@ -29,6 +29,10 @@ export class RegisterModalComponent {
   get confirmPassword() { return this.registerForm.get('confirmPassword') }
 
   public submitForm() {
+    if (this.registerForm.invalid) {
+      return
+    }
+
     const formValue = this.registerForm.value
     const registerModel = new RegisterModel(formValue.email, formValue.username, formValue.password)
     this.authService.register(registerModel)

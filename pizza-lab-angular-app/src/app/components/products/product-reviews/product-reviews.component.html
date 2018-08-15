@@ -1,0 +1,35 @@
+<div class="row space-top review-container">
+  <div class="col-md-8">
+    <form [formGroup]="reviewForm" (ngSubmit)="submitForm()">
+      <legend>Leave a review</legend>
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          formControlName="review"
+          [ngClass]="{ 'is-invalid': review.touched && review.errors }">
+        </textarea>
+        <div *ngIf="review.errors" class="invalid-feedback">
+          <div *ngIf="review.errors.required">Review is required!</div>
+          <div *ngIf="review.errors.minlength">Review must be at least 4 characters!</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-secondary" value="Submit review" [disabled]="!reviewForm.valid" />
+      </div>
+    </form>
+  </div>
+  <div *ngIf="reviews$ | async as reviews">
+    <div class="col-md-8 review" *ngFor="let r of reviews">
+      <div class="card text-black bg-light">
+        <div class="card-body">
+          <blockquote class="card-blockquote">
+            <p>{{r.review}}</p>
+            <footer class="review-footer">Created By:
+            <cite>{{r.createdBy}}</cite>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,4 @@
-import { ActivatedRoute } from '@angular/router'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Store, select } from '@ngrx/store'
 
@@ -13,14 +12,12 @@ import { ProductsService } from '../../../core/services/products/products.servic
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-  public product$: Observable<ProductModel>
-  private id: string
+  protected product$: Observable<ProductModel>
+  @Input() private id: string
 
   constructor(
-    private route: ActivatedRoute,
     private productsService: ProductsService,
     private store: Store<AppState>) {
-      this.id = this.route.snapshot.paramMap.get('id')
   }
 
   ngOnInit() {

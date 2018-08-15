@@ -8,7 +8,8 @@ import { ProductsService } from '../../core/services/products/products.service'
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html'
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
   public products$: Observable<ProductModel[]>

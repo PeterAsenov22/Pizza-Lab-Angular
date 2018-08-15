@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
 import { NgxPaginationModule } from 'ngx-pagination'
 
@@ -12,7 +13,9 @@ import { ProductsRoutingModule } from './products.routing'
   imports: [
     CommonModule,
     NgxPaginationModule,
-    ProductsRoutingModule
+    FormsModule,
+    ProductsRoutingModule,
+    ReactiveFormsModule
   ],
   exports: [
     ...productComponents
