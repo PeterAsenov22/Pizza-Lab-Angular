@@ -12,7 +12,7 @@ import { ProductsService } from '../../core/services/products/products.service'
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  public products$: Observable<ProductModel[]>
+  protected products$: Observable<ProductModel[]>
 
   constructor(
     private productsService: ProductsService,

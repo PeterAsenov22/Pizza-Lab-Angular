@@ -18,17 +18,15 @@
       </div>
     </form>
   </div>
-  <div *ngIf="reviews$ | async as reviews">
-    <div class="col-md-8 review" *ngFor="let r of reviews">
-      <div class="card text-black bg-light">
-        <div class="card-body">
-          <blockquote class="card-blockquote">
-            <p>{{r.review}}</p>
-            <footer class="review-footer">Created By:
-            <cite>{{r.createdBy}}</cite>
-            </footer>
-          </blockquote>
-        </div>
+  <div class="col-md-8 review-style" *ngFor="let r of reviews">
+    <div class="card text-black bg-light">
+      <div class="card-body">
+        <blockquote class="card-blockquote">
+          <p>{{r.review}}</p>
+          <footer class="review-footer">Created By:
+          <cite>{{r.createdBy}}</cite>
+          </footer>
+        </blockquote>
       </div>
     </div>
   </div>

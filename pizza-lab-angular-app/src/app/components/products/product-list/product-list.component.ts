@@ -9,10 +9,10 @@ import { ProductModel } from '../models/ProductModel'
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent {
-  public pageSize: number = 6
-  public currentPage: number = 1
+  protected pageSize: number = 6
+  protected currentPage: number = 1
 
-  @Input() public products$: Observable<ProductModel[]>
+  @Input() protected products$: Observable<ProductModel[]>
 
   changePage (page) {
     this.currentPage = page

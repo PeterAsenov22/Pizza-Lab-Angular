@@ -14,12 +14,12 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-  public faLogin = faSignInAlt
-  public faLogout = faSignOutAlt
-  public faRegister = faUserPlus
+  protected faLogin = faSignInAlt
+  protected faLogout = faSignOutAlt
+  protected faRegister = faUserPlus
 
   constructor (
-    public authService: AuthenticationService,
+    protected authService: AuthenticationService,
     private modalService: NgbModal ) {
   }
 

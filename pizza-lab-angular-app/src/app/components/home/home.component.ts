@@ -14,13 +14,14 @@ import { RegisterModalComponent } from '../authentication/register-modal/registe
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  public products$: Observable<ProductModel[]>
+  protected products$: Observable<ProductModel[]>
 
   constructor(
-    public authService: AuthenticationService,
+    protected authService: AuthenticationService,
     private productsService: ProductsService,
     private store: Store<AppState>,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal) {
+    }
 
   ngOnInit() {
     this.productsService.getAllProducts()

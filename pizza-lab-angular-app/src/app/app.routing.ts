@@ -6,11 +6,14 @@ import { RouterModule, Routes } from '@angular/router'
 import { HomeComponent } from './components/home/home.component'
 import { MenuComponent } from './components/menu/menu.component'
 
+// Guards
+import { AuthGuard } from './core/guards/authentication/authentication.guard'
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'menu', component: MenuComponent },
-  { path: 'product', loadChildren: () => ProductsModule }
+  { path: 'product', canActivate: [AuthGuard] , loadChildren: () => ProductsModule }
 ]
 
 @NgModule({

@@ -2,23 +2,27 @@ import { Component } from '@angular/core'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 import { FormBuilder, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
+import { Subscription } from 'rxjs'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
+import { BaseComponent } from '../../base.component'
 import { LoginModel } from '../models/LoginModel'
 
 @Component({
   selector: 'app-login-modal',
   templateUrl: './login-modal.component.html'
 })
-export class LoginModalComponent {
+export class LoginModalComponent extends BaseComponent {
   protected loginForm
   protected faWindowClose = faWindowClose
+  private subscription$: Subscription
 
   constructor(
     protected activeModal: NgbActiveModal,
     protected formBuilder: FormBuilder,
     private authService: AuthenticationService
   ) {
+    super()
     this.createForm()
   }
 
@@ -32,8 +36,9 @@ export class LoginModalComponent {
 
     const formValue = this.loginForm.value
     const loginModel = new LoginModel(formValue.email, formValue.password)
-    this.authService.login(loginModel)
+    this.subscription$ = this.authService.login(loginModel)
       .subscribe(() => this.activeModal.close())
+    this.subscriptions.push(this.subscription$)
   }
 
   private createForm() {

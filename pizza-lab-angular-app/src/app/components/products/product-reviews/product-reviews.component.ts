@@ -1,31 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Component, Input } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { Store, select } from '@ngrx/store'
+import { Store } from '@ngrx/store'
 
 import { AppState } from '../../../core/store/app.state'
 import { ReviewModel } from '../models/ReviewModel'
-import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
+
+import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
+import { ProductsService } from '../../../core/services/products/products.service'
 
 @Component({
   selector: 'app-product-reviews',
   templateUrl: './product-reviews.component.html',
   styleUrls: ['./product-reviews.component.scss']
 })
-export class ProductReviewsComponent implements OnInit {
+export class ProductReviewsComponent {
   protected reviewForm
-  protected reviews$: Observable<ReviewModel[]>
+  @Input() protected reviews: ReviewModel[]
   @Input() private id: string
 
   constructor (
     protected formBuilder: FormBuilder,
     private store: Store<AppState>,
-    private authService: AuthenticationService ) {
+    private authService: AuthenticationService,
+    private productsService: ProductsService ) {
     this.createForm()
-  }
-
-  ngOnInit() {
-    this.reviews$ = this.store.pipe(select(state => state.products.all.find(p => p._id === this.id).reviews))
   }
 
   get review() { return this.reviewForm.get('review') }
@@ -37,7 +35,8 @@ export class ProductReviewsComponent implements OnInit {
 
     const formValue = this.reviewForm.value
     const reviewModel = new ReviewModel(formValue.review, this.authService.getUsername())
-    // dispatch action
+    this.productsService.addProductReview(reviewModel, this.id)
+    this.reviewForm.reset()
   }
 
   private createForm() {

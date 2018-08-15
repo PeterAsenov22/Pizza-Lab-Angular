@@ -10,10 +10,10 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent {
-  @Input() public product: ProductModel
+  @Input() protected product: ProductModel
 
   constructor (
-    public authService: AuthenticationService,
+    protected authService: AuthenticationService,
     private router: Router) { }
 
   navigateToDetails () {
