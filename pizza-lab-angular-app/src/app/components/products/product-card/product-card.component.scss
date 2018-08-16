@@ -7,3 +7,7 @@ img {
   width: 318px; 
   height: 120px;
 }
+
+.custom-button:focus {
+  box-shadow: none !important;
+}

@@ -6,7 +6,6 @@ import { Store, select } from '@ngrx/store'
 import { AppState } from '../../../core/store/app.state'
 import { BaseComponent } from '../../base.component'
 import { ProductModel } from '../models/ProductModel'
-import { ProductsService } from '../../../core/services/products/products.service'
 
 @Component({
   selector: 'app-details-page',
@@ -14,19 +13,18 @@ import { ProductsService } from '../../../core/services/products/products.servic
 })
 export class DetailsPageComponent extends BaseComponent implements OnInit {
   protected id: string
+  protected notFoundMessage = 'PRODUCT NOT FOUND'
   protected product: ProductModel
   private subscription$: Subscription
 
   constructor (
     private route: ActivatedRoute,
-    private store: Store<AppState>,
-    private productsService: ProductsService) {
+    private store: Store<AppState>) {
       super()
   }
 
   ngOnInit () {
     this.id = this.route.snapshot.paramMap.get('id')
-    this.productsService.getAllProducts()
     this.subscription$ = this.store
       .pipe(select(state => state.products.all))
       .subscribe(data => {

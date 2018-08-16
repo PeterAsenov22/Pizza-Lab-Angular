@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
 import { NgxPaginationModule } from 'ngx-pagination'
+import { SharedModule } from '../shared/shared.module'
 
+import { NotFoundComponent } from '../shared/not-found/not-found.component'
 import { productComponents } from '.'
 import { ProductsRoutingModule } from './products.routing'
 
@@ -15,7 +17,8 @@ import { ProductsRoutingModule } from './products.routing'
     NgxPaginationModule,
     FormsModule,
     ProductsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     ...productComponents
