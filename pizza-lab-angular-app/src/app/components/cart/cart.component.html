@@ -1,0 +1,46 @@
+<div class="container">
+  <table id="cart" class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th style="width: 50px;">Product</th>
+        <th style="width: 10px;">Price</th>
+        <th style="width: 8px;">Quantity</th>
+        <th style="width: 22px;" class="text-center">Subtotal</th>
+        <th style="width: 10px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pr of products">
+       <td data-th="Product">
+          <div class="row">
+            <div class="col-sm-4 hidden-xs"><img src="https://istanbulcuisinewa.com/wp-content/uploads/2017/06/pizza_adven_zestypepperoni.png" alt="..." class="cart-image" /></div>
+            <div class="col-sm-8">
+              <h4 class="nomargin">Capricosa</h4>
+              <p>domatoes, ham, sauce</p>
+            </div>
+          </div>
+        </td>
+        <td data-th="Price">7.80</td>
+        <td data-th="Quantity">
+          <input
+            type="number"
+            name="quantity"
+            class="form-control text-center" />
+        </td>
+        <td data-th="Subtotal" class="text-center">7.80</td>
+        <td class="actions" data-th="">
+          <button class="btn btn-info btn-sm" onClick={this.onRefreshButtonClick}><i class="fa fa-refresh"></i></button>
+          <button class="btn btn-danger btn-sm" onClick={this.onDeleteButtonClick}><i class="fa fa-trash-o"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><a routerLink="/menu" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+        <td colSpan="2" class="hidden-xs"></td>
+        <td class="hidden-xs text-center"><strong>Total 0.00</strong></td>
+        <td><button class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></button></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
