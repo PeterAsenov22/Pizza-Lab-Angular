@@ -21,7 +21,7 @@
       <p><span class="light-blue-text">Price</span>: ${{product.price.toFixed(2)}}</p>
       <p><span class="light-blue-text">Likes</span>: {{product.likes.length}}</p>
       <button class="btn btn-primary btn-sm">Like</button>
-      <button class="btn btn-warning btn-sm">Order</button>
+      <button class="btn btn-warning btn-sm" (click)="addToCart()">Order</button>
     </div>
   </div>
 </div>

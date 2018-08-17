@@ -1,4 +1,4 @@
-import { CartProductModel } from '../../../components/cart/models/CartProductModel'
+import { CartProductModel } from '../../models/CartProductModel'
 
 export interface CartState {
   readonly products: CartProductModel[]
