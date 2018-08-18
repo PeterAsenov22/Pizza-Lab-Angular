@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { Observable } from 'rxjs'
-
 import { ProductModel } from '../models/ProductModel'
 
 @Component({
@@ -12,7 +10,7 @@ export class ProductListComponent {
   protected pageSize: number = 6
   protected currentPage: number = 1
 
-  @Input() protected products$: Observable<ProductModel[]>
+  @Input() protected products: ProductModel[]
 
   changePage (page) {
     this.currentPage = page

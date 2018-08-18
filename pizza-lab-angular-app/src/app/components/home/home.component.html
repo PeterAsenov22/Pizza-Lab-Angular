@@ -10,5 +10,5 @@
     <a class="btn btn-secondary btn-lg" *ngIf="authService.isAuthenticated() && !authService.isAdmin()" routerLink="/orders">View Your Orders</a>
   </div>
   <h2 class="font-italic text-muted text-center">Top Rated</h2>
-  <app-product-list [products$]="products$"></app-product-list>
+  <app-product-list [products]="products"></app-product-list>
 </div>

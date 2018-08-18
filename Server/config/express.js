@@ -7,5 +7,8 @@ module.exports = (app) => {
   app.use(bodyParser.json())
   app.use(passport.initialize())
   app.use(cors())
+  app.use(function (req, res, next) {
+    setTimeout(next, 2000)
+  })
   console.log('Express ready!')
 }
