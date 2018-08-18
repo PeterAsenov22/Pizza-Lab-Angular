@@ -17,5 +17,9 @@ export class ProductListComponent {
   changePage (page) {
     this.currentPage = page
   }
+
+  trackByIds(index: number, product: ProductModel): string {
+    return product._id
+  }
 }
 

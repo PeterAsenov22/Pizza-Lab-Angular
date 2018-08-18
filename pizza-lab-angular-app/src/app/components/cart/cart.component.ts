@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { Store, select } from '@ngrx/store'
+import { Subscription } from 'rxjs'
 
 import { AppState } from '../../core/store/app.state'
+import { BaseComponent } from '../base.component'
 import { ProductInCartModel } from './models/ProductInCartModel'
 import { SyncCart, RemoveFromCart } from '../../core/store/cart/cart.actions'
 
@@ -10,14 +12,17 @@ import { SyncCart, RemoveFromCart } from '../../core/store/cart/cart.actions'
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent extends BaseComponent implements OnInit {
   protected products: ProductInCartModel[]
   protected totalSum: number
+  private subscription$: Subscription
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {
+    super()
+   }
 
   ngOnInit() {
-    this.store.pipe(select(state => state))
+    this.subscription$ = this.store.pipe(select(state => state))
       .subscribe(state => {
         const products = state.products.all
         const cartProductsIds = state.cart.products.map(p => p.productId)
@@ -41,6 +46,8 @@ export class CartComponent implements OnInit {
         this.products = allProducts
         this.totalSum = total
       })
+
+    this.subscriptions.push(this.subscription$)
   }
 
   onQuantChange(event, id) {
