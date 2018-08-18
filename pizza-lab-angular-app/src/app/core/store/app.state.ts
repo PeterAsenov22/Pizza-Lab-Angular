@@ -1,9 +1,11 @@
 import { AuthenticationState } from './authentication/authentication.state'
-import { ProductsState } from './products/products.state'
 import { CartState } from './cart/cart.state'
+import { HttpState } from './http/http.state'
+import { ProductsState } from './products/products.state'
 
 export interface AppState {
   authentication: AuthenticationState
-  products: ProductsState,
   cart: CartState
+  http: HttpState
+  products: ProductsState
 }

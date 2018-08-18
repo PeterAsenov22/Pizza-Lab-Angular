@@ -9,6 +9,7 @@ import { ReviewModel } from '../../../components/products/models/ReviewModel'
 import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 import { GetAllProducts, AddProductReview } from '../../store/products/products.actions'
+import { GetRequestBegin, GetRequestEnd } from '../../store/http/http.actions'
 
 const baseUrl = 'http://localhost:5000/pizza/'
 const allProductsUrl = 'all'
@@ -33,11 +34,14 @@ export class ProductsService {
     this.productsCached = false
     this.cacheTime = null
 
+    this.store.dispatch(new GetRequestBegin())
+
     this.http.get<ProductModel[]>(`${baseUrl}${allProductsUrl}`)
       .subscribe(products => {
         this.productsCached = true
         this.cacheTime = new Date().getTime()
         this.store.dispatch(new GetAllProducts(products))
+        this.store.dispatch(new GetRequestEnd())
       })
   }
 
