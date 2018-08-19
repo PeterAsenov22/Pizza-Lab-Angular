@@ -1,4 +1,4 @@
-import { GET_ALL, ADD_REVIEW } from './products.actions'
+import { GET_ALL, ADD_REVIEW, LIKE_PRODUCT, UNLIKE_PRODUCT } from './products.actions'
 import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ProductsState } from './products.state'
 
@@ -40,6 +40,8 @@ export function productsReducer (state: ProductsState = initialState, action) {
     case GET_ALL:
       return syncProducts(state, action.payload)
     case ADD_REVIEW:
+    case LIKE_PRODUCT:
+    case UNLIKE_PRODUCT:
       return syncProducts(state, [action.payload])
     default:
       return state

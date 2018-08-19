@@ -20,7 +20,8 @@
       <p><span class="light-blue-text">Weight</span>: {{product.weight}}gr</p>
       <p><span class="light-blue-text">Price</span>: ${{product.price.toFixed(2)}}</p>
       <p><span class="light-blue-text">Likes</span>: {{product.likes.length}}</p>
-      <button class="btn btn-primary btn-sm">Like</button>
+      <button class="btn btn-primary btn-sm" *ngIf="!product.likes.includes(authService.getUsername())" (click)="onLikeButtonClick()">Like</button>
+      <button class="btn btn-primary btn-sm" *ngIf="product.likes.includes(authService.getUsername())" (click)="onUnlikeButtonClick()">Unlike</button>
       <button class="btn btn-warning btn-sm" (click)="addToCart()">Order</button>
     </div>
   </div>
