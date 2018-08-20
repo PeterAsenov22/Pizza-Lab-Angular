@@ -23,22 +23,19 @@ export class ErrorInterceptor implements HttpInterceptor {
       .pipe(catchError((err: HttpErrorResponse) => {
         switch (err.status) {
           case 400:
-            const message = Object.keys(err.error.errors)
-              .map(e => err.error.errors[e])
-              .join('\n')
-            this.toastr.error(message, 'Warning!')
-            break
           case 401:
-            this.spinner.hide()
+            if (req.url.endsWith('/auth/signup') || req.url.endsWith('/auth/login')) {
+              this.spinner.hide()
+            }
+
             if (err.error.errors) {
-              const erMessage = Object.keys(err.error.errors)
+              const message = Object.keys(err.error.errors)
                 .map(e => err.error.errors[e])
                 .join('\n')
-              this.toastr.error(erMessage, 'Warning!')
+              this.toastr.error(message, 'Warning!')
             } else {
               this.toastr.error(err.error.message, 'Warning!')
             }
-
             break
         }
 
