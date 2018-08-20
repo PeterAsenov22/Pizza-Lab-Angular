@@ -1,48 +1,64 @@
 import { GET_ALL, ADD_REVIEW, LIKE_PRODUCT, UNLIKE_PRODUCT } from './products.actions'
 import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ProductsState } from './products.state'
+import { ReviewModel } from '../../../components/products/models/ReviewModel'
 
 const initialState: ProductsState = {
   all: []
 }
 
-function syncProducts (state: ProductsState, products: ProductModel[]) {
+function getAllProducts (state: ProductsState, products: ProductModel[]) {
   return Object.assign({}, state, {
-    all: reconcile(state.all, products)
+    all: products
   })
 }
 
-function reconcile (oldData, newData) {
-  const newDataById = {}
-  for (const entry of newData) {
-    newDataById[entry._id] = entry
+function addProductReview(state: ProductsState, review: ReviewModel, productId: string) {
+  const allProductsCopy = state.all.slice()
+  const product = allProductsCopy.find(p => p._id === productId)
+  if (product) {
+    product.reviews.push(review)
   }
 
-  const result = []
-  for (const entry of oldData) {
-    if (newDataById[entry._id]) {
-      result.push(newDataById[entry._id])
-      delete newDataById[entry._id]
-    } else {
-      result.push(entry)
-    }
+  return Object.assign({}, state, {
+    all: allProductsCopy
+  })
+}
+
+function likeProduct(state: ProductsState, id: string, username: string) {
+  const allProductsCopy = state.all.slice()
+  const product = allProductsCopy.find(p => p._id === id)
+  if (product) {
+    product.likes.push(username)
   }
 
-  for (const entryId in newDataById) {
-    result.push(newDataById[entryId])
+  return Object.assign({}, state, {
+    all: allProductsCopy
+  })
+}
+
+function unlikeProduct(state: ProductsState, id: string, username: string) {
+  const allProductsCopy = state.all.slice()
+  const product = allProductsCopy.find(p => p._id === id)
+  if (product) {
+    product.likes = product.likes.filter(u => u !== username)
   }
 
-  return result
+  return Object.assign({}, state, {
+    all: allProductsCopy
+  })
 }
 
 export function productsReducer (state: ProductsState = initialState, action) {
   switch (action.type) {
     case GET_ALL:
-      return syncProducts(state, action.payload)
+      return getAllProducts(state, action.payload)
     case ADD_REVIEW:
+      return addProductReview(state, action.review, action.productId)
     case LIKE_PRODUCT:
+      return likeProduct(state, action.id, action.username)
     case UNLIKE_PRODUCT:
-      return syncProducts(state, [action.payload])
+      return unlikeProduct(state, action.id, action.username)
     default:
       return state
   }

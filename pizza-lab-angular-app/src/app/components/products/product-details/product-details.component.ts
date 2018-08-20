@@ -35,10 +35,10 @@ export class ProductDetailsComponent {
   }
 
   onLikeButtonClick() {
-    this.productsService.likeProduct(this.product._id)
+    this.productsService.likeProduct(this.product._id, this.authService.getUsername())
   }
 
   onUnlikeButtonClick() {
-    this.productsService.unlikeProduct(this.product._id)
+    this.productsService.unlikeProduct(this.product._id, this.authService.getUsername())
   }
 }

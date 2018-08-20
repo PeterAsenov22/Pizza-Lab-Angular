@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { Store } from '@ngrx/store'
 
-import { AppState } from '../../../core/store/app.state'
 import { ReviewModel } from '../models/ReviewModel'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
@@ -20,7 +18,6 @@ export class ProductReviewsComponent {
 
   constructor (
     protected formBuilder: FormBuilder,
-    private store: Store<AppState>,
     private authService: AuthenticationService,
     private productsService: ProductsService ) {
     this.createForm()
