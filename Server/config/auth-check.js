@@ -12,7 +12,10 @@ module.exports = (req, res, next) => {
   // decode the token using a secret key-phrase
   return jwt.verify(token, 's0m3 r4nd0m str1ng', (err, decoded) => {
     if (err) {
-      return res.status(401).end()
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized!'
+      })
     }
 
     const userId = decoded.sub
