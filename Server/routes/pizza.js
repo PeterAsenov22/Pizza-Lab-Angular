@@ -82,7 +82,7 @@ router.post('/create', authCheck, (req, res) => {
         if (err.code === 11000) {
           message = 'Pizza with the given name already exists.'
         }
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: message
         })
@@ -135,7 +135,7 @@ router.post('/edit/:id', authCheck, (req, res) => {
             if (err.code === 11000) {
               message = 'Pizza with the given name already exists.'
             }
-            return res.status(401).json({
+            return res.status(400).json({
               success: false,
               message: message
             })
@@ -144,7 +144,7 @@ router.post('/edit/:id', authCheck, (req, res) => {
       .catch((err) => {
         console.log(err)
         const message = 'Something went wrong :( Check the form for errors.'
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: message
         })
@@ -172,7 +172,7 @@ router.post('/review/:id', authCheck, (req, res) => {
 
   if (review.length < 4) {
     const message = 'Review must be at least 4 characters long.'
-    return res.status(401).json({
+    return res.status(400).json({
       success: false,
       message: message
     })
@@ -182,7 +182,7 @@ router.post('/review/:id', authCheck, (req, res) => {
     .findById(id)
     .then(pizza => {
       if (!pizza) {
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: 'Product not found.'
         })
@@ -208,7 +208,7 @@ router.post('/review/:id', authCheck, (req, res) => {
         .catch((err) => {
           console.log(err)
           const message = 'Something went wrong :( Check the form for errors.'
-          return res.status(401).json({
+          return res.status(400).json({
             success: false,
             message: message
           })
@@ -217,7 +217,7 @@ router.post('/review/:id', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       const message = 'Something went wrong :( Check the form for errors.'
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: message
       })
@@ -232,7 +232,7 @@ router.post('/like/:id', authCheck, (req, res) => {
     .then(pizza => {
       if (!pizza) {
         const message = 'Product not found.'
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: message
         })
@@ -255,7 +255,7 @@ router.post('/like/:id', authCheck, (req, res) => {
         .catch((err) => {
           console.log(err)
           const message = 'Something went wrong :('
-          return res.status(401).json({
+          return res.status(400).json({
             success: false,
             message: message
           })
@@ -264,7 +264,7 @@ router.post('/like/:id', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       const message = 'Something went wrong :('
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: message
       })
@@ -279,7 +279,7 @@ router.post('/unlike/:id', authCheck, (req, res) => {
     .then(pizza => {
       if (!pizza) {
         let message = 'Product not found.'
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: message
         })
@@ -304,7 +304,7 @@ router.post('/unlike/:id', authCheck, (req, res) => {
         .catch((err) => {
           console.log(err)
           const message = 'Something went wrong :('
-          return res.status(401).json({
+          return res.status(400).json({
             success: false,
             message: message
           })
@@ -313,7 +313,7 @@ router.post('/unlike/:id', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       const message = 'Something went wrong :('
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: message
       })
@@ -336,7 +336,7 @@ router.delete('/delete/:id', authCheck, (req, res) => {
           })
       })
       .catch(() => {
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: 'Entry does not exist!'
         })

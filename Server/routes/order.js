@@ -23,7 +23,7 @@ router.post('/submit', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       const message = 'Something went wrong :('
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: message
       })
@@ -60,7 +60,7 @@ router.post('/approve/:id', authCheck, (req, res) => {
     .then(order => {
       if (!order) {
         const message = 'Order not found.'
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           message: message
         })
@@ -78,7 +78,7 @@ router.post('/approve/:id', authCheck, (req, res) => {
         .catch((err) => {
           console.log(err)
           const message = 'Something went wrong :('
-          return res.status(401).json({
+          return res.status(400).json({
             success: false,
             message: message
           })
@@ -87,7 +87,7 @@ router.post('/approve/:id', authCheck, (req, res) => {
     .catch((err) => {
       console.log(err)
       const message = 'Something went wrong :('
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         message: message
       })
