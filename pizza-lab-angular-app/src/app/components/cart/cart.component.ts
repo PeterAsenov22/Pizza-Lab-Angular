@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store'
 import { Subscription } from 'rxjs'
 
@@ -6,6 +7,7 @@ import { AppState } from '../../core/store/app.state'
 import { BaseComponent } from '../base.component'
 import { ProductInCartModel } from './models/ProductInCartModel'
 import { SyncCart, RemoveFromCart } from '../../core/store/cart/cart.actions'
+import { OrdersService } from '../../core/services/orders/orders.service'
 
 @Component({
   selector: 'app-cart',
@@ -17,9 +19,12 @@ export class CartComponent extends BaseComponent implements OnInit {
   protected totalSum: number
   private subscription$: Subscription
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private ordersService: OrdersService,
+    private router: Router ) {
     super()
-   }
+  }
 
   ngOnInit() {
     this.subscription$ = this.store.pipe(select(state => state))
@@ -63,5 +68,20 @@ export class CartComponent extends BaseComponent implements OnInit {
 
   onDeleteButtonClick(id) {
     this.store.dispatch(new RemoveFromCart(id))
+  }
+
+  onCheckoutButtonClick() {
+    const products = []
+    for (const pr of this.products) {
+      products.push({
+        id: pr._id,
+        name: pr.name,
+        quantity: pr.quantity,
+        price: pr.price
+      })
+    }
+
+    this.ordersService.submitNewOrder(products)
+    this.router.navigate(['/orders/my'])
   }
 }

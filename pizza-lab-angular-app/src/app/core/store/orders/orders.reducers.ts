@@ -1,5 +1,5 @@
 import { OrdersState } from './orders.state'
-import { GET_USER_ORDERS } from './orders.actions'
+import { GET_USER_ORDERS, SUBMIT_ORDER } from './orders.actions'
 import { OrderModel } from '../../../components/orders/models/OrderModel'
 
 const initialState: OrdersState = {
@@ -12,10 +12,18 @@ function getUserOrders(state: OrdersState, orders: OrderModel[]) {
   })
 }
 
+function submitOrder(state: OrdersState, order: OrderModel) {
+  return Object.assign({}, state, {
+    userOrders: [...state.userOrders, order]
+  })
+}
+
 export function ordersReducer(state: OrdersState = initialState, action) {
   switch (action.type) {
     case GET_USER_ORDERS:
       return getUserOrders(state, action.payload)
+    case SUBMIT_ORDER:
+      return submitOrder(state, action.payload)
     default:
       return state
   }

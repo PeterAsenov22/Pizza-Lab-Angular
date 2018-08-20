@@ -1,8 +1,8 @@
-import { OrderProduct } from './OrderProduct'
+import { OrderProductModel } from './OrderProductModel'
 
 export class OrderModel {
   creatorId: string
-  products: OrderProduct[]
+  products: OrderProductModel[]
   date: Date
   status: string
 }
