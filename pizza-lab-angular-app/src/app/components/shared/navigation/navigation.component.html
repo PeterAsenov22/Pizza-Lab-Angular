@@ -12,7 +12,7 @@
         <a class="nav-link" routerLink="/menu">Menu</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
-        <a class="nav-link" href="#">My Orders</a>
+        <a class="nav-link" routerLink="/orders/my">My Orders</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
         <a class="nav-link" routerLink="/cart">Cart</a>
