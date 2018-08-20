@@ -3,6 +3,7 @@ import CustomValidators from '../../../core/utils/customValidators'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 import { FormBuilder, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
+import { NgxSpinnerService } from 'ngx-spinner'
 import { Subscription } from 'rxjs'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
@@ -21,7 +22,8 @@ export class RegisterModalComponent extends BaseComponent {
   constructor(
     protected activeModal: NgbActiveModal,
     protected formBuilder: FormBuilder,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private spinner: NgxSpinnerService
   ) {
     super()
     this.createForm()
@@ -37,10 +39,12 @@ export class RegisterModalComponent extends BaseComponent {
       return
     }
 
+    this.spinner.show()
     const formValue = this.registerForm.value
     const registerModel = new RegisterModel(formValue.email, formValue.username, formValue.password)
     this.subscription$ = this.authService.register(registerModel)
       .subscribe(() => {
+        this.spinner.hide()
         this.activeModal.close()
       })
     this.subscriptions.push(this.subscription$)

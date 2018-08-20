@@ -7,12 +7,15 @@ import {
   HttpErrorResponse
 } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { NgxSpinnerService } from 'ngx-spinner'
 import { Observable, throwError } from 'rxjs'
 import { ToastrService } from 'ngx-toastr'
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor (private toastr: ToastrService) { }
+  constructor (
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next
@@ -26,7 +29,16 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.toastr.error(message, 'Warning!')
             break
           case 401:
-            this.toastr.error(err.error.message, 'Warning!')
+            this.spinner.hide()
+            if (err.error.errors) {
+              const erMessage = Object.keys(err.error.errors)
+                .map(e => err.error.errors[e])
+                .join('\n')
+              this.toastr.error(erMessage, 'Warning!')
+            } else {
+              this.toastr.error(err.error.message, 'Warning!')
+            }
+
             break
         }
 
