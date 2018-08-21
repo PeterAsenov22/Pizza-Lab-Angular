@@ -4,15 +4,21 @@ import { Subscription } from 'rxjs'
 
 import { AppState } from '../../../core/store/app.state'
 import { BaseComponent } from '../../base.component'
+import { getTotalSum, toLocaleString } from '../../../core/utils/helperFunctions'
 import { OrderModel } from '../models/OrderModel'
 import { OrdersService } from '../../../core/services/orders/orders.service'
 
 @Component({
   selector: 'app-user-orders',
-  templateUrl: './user-orders.component.html'
+  templateUrl: './user-orders.component.html',
+  styleUrls: ['./user-orders.component.scss']
 })
 export class UserOrdersComponent extends BaseComponent implements OnInit {
+  protected pageSize: number = 5
+  protected currentPage: number = 1
   protected notFoundMessage = 'You have not made any orders!'
+  protected getTotalSum = getTotalSum
+  protected toLocaleString = toLocaleString
   protected orders: OrderModel[]
   private subscription$: Subscription
 
@@ -23,27 +29,24 @@ export class UserOrdersComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('here')
     this.ordersService.getUserOrders()
     this.subscription$ = this.store
-      .pipe(select(state => state.orders.userOrders))
-      .subscribe(orders => {
-        this.orders = orders
+      .pipe(select(state => state))
+      .subscribe(state => {
+        if (state.http.ordersRequestMade) {
+          console.log('here')
+          this.orders = state.orders.userOrders
+        }
       })
 
     this.subscriptions.push(this.subscription$)
   }
 
-  getTotalSum(products) {
-    let total = 0
-    for (const pr of products) {
-      total += pr.price * pr.quantity
-    }
-
-    return total
+  changePage (page) {
+    this.currentPage = page
   }
 
-  toLocaleString(date) {
-    return new Date(date).toLocaleString()
+  trackByIds(index: number, order: OrderModel): string {
+    return order._id
   }
 }

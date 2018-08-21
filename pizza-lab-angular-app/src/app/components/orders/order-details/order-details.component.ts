@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs'
 
 import { AppState } from '../../../core/store/app.state'
 import { BaseComponent } from '../../base.component'
+import { getTotalSum, toLocaleString } from '../../../core/utils/helperFunctions'
 import { OrderModel } from '../models/OrderModel'
 
 @Component({
@@ -13,6 +14,9 @@ import { OrderModel } from '../models/OrderModel'
   styleUrls: ['./order-details.component.scss']
 })
 export class OrderDetailsComponent extends BaseComponent implements OnInit {
+  protected getTotalSum = getTotalSum
+  protected toLocaleString = toLocaleString
+  protected notFoundMessage = 'ORDER NOT FOUND'
   protected order: OrderModel
   private id: string
   private subscription$: Subscription

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, SYNC_CART, REMOVE_FROM_CART } from './cart.actions'
+import { ADD_TO_CART, SYNC_CART, REMOVE_FROM_CART, CLEAR_CART } from './cart.actions'
 import { DEAUTHENTICATE } from '../authentication/authentication.actions'
 import { CartProductModel } from '../../models/CartProductModel'
 import { CartState } from './cart.state'
@@ -53,6 +53,7 @@ export function cartReducer (state: CartState = initialState, action) {
       return syncCart(state, action.id, action.quantity)
     case REMOVE_FROM_CART:
       return removeFromCart(state, action.id)
+    case CLEAR_CART:
     case DEAUTHENTICATE:
       return clearCart(state)
     default:

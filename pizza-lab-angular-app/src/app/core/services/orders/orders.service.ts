@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Store } from '@ngrx/store'
+import { Router } from '@angular/router'
+import { Store, select } from '@ngrx/store'
 
 import { AppState } from '../../store/app.state'
+import { ClearCart } from '../../store/cart/cart.actions'
 import { GetUserOrders, SubmitOrder } from '../../store/orders/orders.actions'
 import { OrderModel } from '../../../components/orders/models/OrderModel'
 import { OrderProductModel } from '../../../components/orders/models/OrderProductModel'
 import { NgxSpinnerService } from '../../../../../node_modules/ngx-spinner'
+import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/orders/'
 const userOrdersUrl = 'user'
@@ -14,19 +17,25 @@ const submitOrderUrl = 'submit'
 
 @Injectable()
 export class OrdersService {
-  private isGetUserOrdersCalled: boolean = false
+  private ordersRequestMade: boolean
 
   constructor (
     private http: HttpClient,
     private store: Store<AppState>,
-    private spinner: NgxSpinnerService ) { }
+    private spinner: NgxSpinnerService,
+    private router: Router ) {
+      this.store
+        .pipe(select(state => state.http.ordersRequestMade))
+        .subscribe(data => {
+          this.ordersRequestMade = data
+        })
+  }
 
   getUserOrders() {
-    if (this.isGetUserOrdersCalled) {
+    if (this.ordersRequestMade) {
       return
     }
 
-    this.isGetUserOrdersCalled = true
     this.spinner.show()
 
     this.http.get<OrderModel[]>(`${baseUrl}${userOrdersUrl}`)
@@ -37,14 +46,14 @@ export class OrdersService {
   }
 
   submitNewOrder(products: OrderProductModel[]) {
-    const order = new OrderModel()
-    order.date = new Date()
-    order.products = products
-    order.status = 'Pending'
-
-    this.store.dispatch(new SubmitOrder(order))
+    this.spinner.show()
     this.http
       .post(`${baseUrl}${submitOrderUrl}`, products)
-      .subscribe()
+      .subscribe((res: ResponseDataModel) => {
+        this.store.dispatch(new SubmitOrder(res.data))
+        this.store.dispatch(new ClearCart())
+        this.spinner.hide()
+        this.router.navigate(['/orders/my'])
+      })
   }
 }

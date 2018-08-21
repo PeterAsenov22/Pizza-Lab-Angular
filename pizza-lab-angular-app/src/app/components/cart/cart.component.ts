@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store'
 import { Subscription } from 'rxjs'
 
 import { AppState } from '../../core/store/app.state'
 import { BaseComponent } from '../base.component'
 import { ProductInCartModel } from './models/ProductInCartModel'
-import { SyncCart, RemoveFromCart } from '../../core/store/cart/cart.actions'
+import { SyncCart, RemoveFromCart, ClearCart } from '../../core/store/cart/cart.actions'
 import { OrdersService } from '../../core/services/orders/orders.service'
 
 @Component({
@@ -21,8 +20,7 @@ export class CartComponent extends BaseComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private ordersService: OrdersService,
-    private router: Router ) {
+    private ordersService: OrdersService ) {
     super()
   }
 
@@ -82,6 +80,5 @@ export class CartComponent extends BaseComponent implements OnInit {
     }
 
     this.ordersService.submitNewOrder(products)
-    this.router.navigate(['/orders/my'])
   }
 }

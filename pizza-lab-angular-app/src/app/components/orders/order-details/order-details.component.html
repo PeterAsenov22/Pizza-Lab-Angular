@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container mt-4" *ngIf="order; else notFound">
   <h1 class="text-center">Order #{{order._id}}</h1>
   <div class="row space-top">
     <div class="col-md-12 mt-3">
@@ -8,11 +8,11 @@
       </p>
       <p>
         <span class="font-weight-bold lead text-warning">Date:</span>
-        <span class="ml-2 lead">{{order.date.toLocaleString()}}</span>
+        <span class="ml-2 lead">{{toLocaleString(order.date)}}</span>
       </p>
       <p>
         <span class="font-weight-bold lead text-warning">Total Price:</span>
-        <span class="ml-2 lead">$19.00</span>
+        <span class="ml-2 lead">${{getTotalSum(order.products).toFixed(2)}}</span>
       </p>
     </div>
   </div>
@@ -45,3 +45,6 @@
     </div>
   </div>
 </div>
+<ng-template #notFound>
+  <app-not-found [message]="notFoundMessage"></app-not-found>
+</ng-template>
