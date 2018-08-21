@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs'
 import { AppState } from '../../../core/store/app.state'
 import { BaseComponent } from '../../base.component'
 import { OrderModel } from '../models/OrderModel'
+import { OrdersService } from '../../../core/services/orders/orders.service'
 
 @Component({
   selector: 'app-user-orders',
@@ -15,11 +16,15 @@ export class UserOrdersComponent extends BaseComponent implements OnInit {
   protected orders: OrderModel[]
   private subscription$: Subscription
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private ordersService: OrdersService ) {
     super()
   }
 
   ngOnInit() {
+    console.log('here')
+    this.ordersService.getUserOrders()
     this.subscription$ = this.store
       .pipe(select(state => state.orders.userOrders))
       .subscribe(orders => {

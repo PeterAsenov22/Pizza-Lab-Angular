@@ -8,13 +8,14 @@ import { AuthenticationService } from './core/services/authentication/authentica
 import { BaseComponent } from './components/base.component'
 import { ProductsService } from './core/services/products/products.service'
 import { OrdersService } from './core/services/orders/orders.service'
+import { delay } from '../../node_modules/rxjs/operators'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent extends BaseComponent implements OnInit {
-  protected getCalls: number = 0
+  protected getCalls: number
   private subscription$: Subscription
 
   constructor (
@@ -34,9 +35,9 @@ export class AppComponent extends BaseComponent implements OnInit {
     }
 
     this.subscription$ = this.store
-      .pipe(select(state => state.http.currentGetCalls))
+      .pipe(select(state => state.http.currentGetCalls), delay(0))
       .subscribe(calls => {
-        if (this.getCalls === 0 && calls > 0) {
+        if ((!this.getCalls || this.getCalls === 0) && calls > 0) {
           this.spinner.show()
         }
 
