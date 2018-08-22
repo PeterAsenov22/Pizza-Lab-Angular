@@ -18,7 +18,7 @@
         <a class="nav-link" routerLink="/cart">Cart</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
-        <a class="nav-link" href="#">Create New Pizza</a>
+        <a class="nav-link" routerLink="/admin/product/create">Create New Pizza</a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
         <a class="nav-link" href="#">Pending Orders</a>

@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { NgxSpinnerService } from 'ngx-spinner'
+import { ToastrService } from 'ngx-toastr'
 import { Store } from '@ngrx/store'
 
 import { AppState } from '../../store/app.state'
+import { CreateProductModel } from '../../../components/admin/models/CreateProductModel'
 import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ReviewModel } from '../../../components/products/models/ReviewModel'
 
-import { GetAllProducts, AddProductReview, LikeProduct, UnlikeProduct } from '../../store/products/products.actions'
+import { GetAllProducts, AddProductReview, LikeProduct, UnlikeProduct, CreateProduct } from '../../store/products/products.actions'
 import { GetRequestBegin, GetRequestEnd } from '../../store/http/http.actions'
+import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/pizza/'
 const allProductsUrl = 'all'
+const createProductUrl = 'create'
 const addReviewUrl = 'review/'
 const likeProductUrl = 'like/'
 const unlikeProductUrl = 'unlike/'
@@ -23,7 +28,9 @@ export class ProductsService {
 
   constructor (
     private http: HttpClient,
-    private store: Store<AppState> ) { }
+    private store: Store<AppState>,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService ) { }
 
   getAllProducts () {
     if (this.productsCached && (new Date().getTime() - this.cacheTime) < fiveMinutes) {
@@ -39,6 +46,17 @@ export class ProductsService {
       .subscribe(products => {
         this.store.dispatch(new GetAllProducts(products))
         this.store.dispatch(new GetRequestEnd())
+      })
+  }
+
+  createProduct(model: CreateProductModel) {
+    this.spinner.show()
+    this.http
+      .post(`${baseUrl}${createProductUrl}`, model)
+      .subscribe((res: ResponseDataModel) => {
+        this.store.dispatch(new CreateProduct(res.data))
+        this.toastr.success(res.message)
+        this.spinner.hide()
       })
   }
 

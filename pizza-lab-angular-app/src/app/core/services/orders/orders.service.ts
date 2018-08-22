@@ -8,7 +8,7 @@ import { ClearCart } from '../../store/cart/cart.actions'
 import { GetUserOrders, SubmitOrder } from '../../store/orders/orders.actions'
 import { OrderModel } from '../../../components/orders/models/OrderModel'
 import { OrderProductModel } from '../../../components/orders/models/OrderProductModel'
-import { NgxSpinnerService } from '../../../../../node_modules/ngx-spinner'
+import { NgxSpinnerService } from 'ngx-spinner'
 import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/orders/'

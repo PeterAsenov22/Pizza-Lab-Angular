@@ -8,7 +8,7 @@ import { AuthenticationService } from './core/services/authentication/authentica
 import { BaseComponent } from './components/base.component'
 import { ProductsService } from './core/services/products/products.service'
 import { OrdersService } from './core/services/orders/orders.service'
-import { delay } from '../../node_modules/rxjs/operators'
+import { delay } from 'rxjs/operators'
 
 @Component({
   selector: 'app-root',
