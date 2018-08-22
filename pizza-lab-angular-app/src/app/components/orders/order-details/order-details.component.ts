@@ -10,8 +10,7 @@ import { OrderModel } from '../models/OrderModel'
 
 @Component({
   selector: 'app-order-details',
-  templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.scss']
+  templateUrl: './order-details.component.html'
 })
 export class OrderDetailsComponent extends BaseComponent implements OnInit {
   protected getTotalSum = getTotalSum
