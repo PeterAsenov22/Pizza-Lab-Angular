@@ -24,9 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         switch (err.status) {
           case 400:
           case 401:
-            if (req.url.endsWith('/auth/signup') || req.url.endsWith('/auth/login')) {
-              this.spinner.hide()
-            }
+            this.spinner.hide()
 
             if (err.error.errors) {
               const message = Object.keys(err.error.errors)

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { NgxSpinnerService } from 'ngx-spinner'
-import { ToastrService } from 'ngx-toastr'
+import { Router } from '@angular/router'
 import { Store } from '@ngrx/store'
+import { ToastrService } from 'ngx-toastr'
 
 import { AppState } from '../../store/app.state'
 import { CreateProductModel } from '../../../components/admin/models/CreateProductModel'
@@ -30,7 +31,8 @@ export class ProductsService {
     private http: HttpClient,
     private store: Store<AppState>,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService ) { }
+    private toastr: ToastrService,
+    private router: Router ) { }
 
   getAllProducts () {
     if (this.productsCached && (new Date().getTime() - this.cacheTime) < fiveMinutes) {
@@ -55,8 +57,9 @@ export class ProductsService {
       .post(`${baseUrl}${createProductUrl}`, model)
       .subscribe((res: ResponseDataModel) => {
         this.store.dispatch(new CreateProduct(res.data))
-        this.toastr.success(res.message)
         this.spinner.hide()
+        this.router.navigate(['/menu'])
+        this.toastr.success('Product added successfully.')
       })
   }
 
