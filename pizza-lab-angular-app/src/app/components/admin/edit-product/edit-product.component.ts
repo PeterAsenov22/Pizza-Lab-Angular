@@ -2,8 +2,10 @@ import { ActivatedRoute } from '@angular/router'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { Store, select } from '@ngrx/store'
+import { Subscription } from 'rxjs'
 
 import { AppState } from '../../../core/store/app.state'
+import { BaseComponent } from '../../base.component'
 import CustomValidators from '../../../core/utils/customValidators'
 import { ProductModel } from '../../products/models/ProductModel'
 import { ProductsService } from '../../../core/services/products/products.service'
@@ -13,25 +15,30 @@ import { ProductsService } from '../../../core/services/products/products.servic
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.scss']
 })
-export class EditProductComponent implements OnInit {
+export class EditProductComponent extends BaseComponent implements OnInit {
   protected editForm
   protected notFoundMessage = 'PRODUCT NOT FOUND'
   protected product: ProductModel
   private id: string
+  private subscription$: Subscription
 
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
     private route: ActivatedRoute,
-    private store: Store<AppState> ) { }
+    private store: Store<AppState> ) {
+      super()
+    }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id')
-    this.store
+    this.subscription$ = this.store
       .pipe(select(state => state.products.all))
       .subscribe(products => {
         this.product = products.find(p => p._id === this.id)
       })
+
+    this.subscriptions.push(this.subscription$)
 
     this.createForm()
   }
