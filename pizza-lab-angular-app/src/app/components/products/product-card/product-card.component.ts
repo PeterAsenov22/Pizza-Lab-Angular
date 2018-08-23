@@ -28,6 +28,10 @@ export class ProductCardComponent {
     this.router.navigate([`/product/details/${this.product._id}`])
   }
 
+  navigateToEdit () {
+    this.router.navigate([`/admin/product/edit/${this.product._id}`])
+  }
+
   addToCart () {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/cart'])

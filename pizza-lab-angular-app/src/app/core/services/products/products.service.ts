@@ -11,13 +11,14 @@ import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ReviewModel } from '../../../components/products/models/ReviewModel'
 
 import { GetAllProducts, AddProductReview,
-  LikeProduct, UnlikeProduct, CreateProduct, DeleteProduct } from '../../store/products/products.actions'
+  LikeProduct, UnlikeProduct, CreateProduct, DeleteProduct, EditProduct } from '../../store/products/products.actions'
 import { GetRequestBegin, GetRequestEnd } from '../../store/http/http.actions'
 import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/pizza/'
 const allProductsUrl = 'all'
 const createProductUrl = 'create'
+const editProductUrl = 'edit/'
 const deleteProductUrl = 'delete/'
 const addReviewUrl = 'review/'
 const likeProductUrl = 'like/'
@@ -62,6 +63,18 @@ export class ProductsService {
         this.spinner.hide()
         this.router.navigate(['/menu'])
         this.toastr.success('Product added successfully.')
+      })
+  }
+
+  editProduct(model: ProductModel) {
+    this.spinner.show()
+    this.http
+      .post(`${baseUrl}${editProductUrl}${model._id}`, model)
+      .subscribe((res: ResponseDataModel) => {
+        this.store.dispatch(new EditProduct(res.data))
+        this.spinner.hide()
+        this.router.navigate(['/menu'])
+        this.toastr.success('Product edited successfully.')
       })
   }
 

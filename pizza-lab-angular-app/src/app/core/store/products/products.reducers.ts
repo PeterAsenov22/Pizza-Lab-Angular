@@ -1,4 +1,4 @@
-import { GET_ALL, ADD_REVIEW, LIKE_PRODUCT, UNLIKE_PRODUCT, CREATE_PRODUCT, DELETE_PRODUCT } from './products.actions'
+import { GET_ALL, ADD_REVIEW, LIKE_PRODUCT, UNLIKE_PRODUCT, CREATE_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT } from './products.actions'
 import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ProductsState } from './products.state'
 import { ReviewModel } from '../../../components/products/models/ReviewModel'
@@ -16,6 +16,12 @@ function getAllProducts(state: ProductsState, products: ProductModel[]) {
 function addProduct(state: ProductsState, product: ProductModel) {
   return Object.assign({}, state, {
     all: [...state.all, product]
+  })
+}
+
+function editProduct(state: ProductsState, product: ProductModel) {
+  return Object.assign({}, state, {
+    all: [...state.all.filter(p => p._id !== product._id), product]
   })
 }
 
@@ -67,6 +73,8 @@ export function productsReducer (state: ProductsState = initialState, action) {
       return getAllProducts(state, action.payload)
     case CREATE_PRODUCT:
       return addProduct(state, action.payload)
+    case EDIT_PRODUCT:
+      return editProduct(state, action.payload)
     case DELETE_PRODUCT:
       return removeProduct(state, action.id)
     case ADD_REVIEW:

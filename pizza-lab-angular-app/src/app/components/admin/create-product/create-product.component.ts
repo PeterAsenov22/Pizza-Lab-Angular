@@ -11,7 +11,7 @@ import { ProductsService } from '../../../core/services/products/products.servic
   styleUrls: ['./create-product.component.scss']
 })
 export class CreateProductComponent implements OnInit {
-  public createForm
+  protected createForm
 
   constructor(
     private fb: FormBuilder,

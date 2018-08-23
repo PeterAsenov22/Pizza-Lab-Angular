@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
 import { NgxSpinnerModule } from 'ngx-spinner'
+import { SharedModule } from '../shared/shared.module'
 
 import { adminComponents } from '.'
 
@@ -17,7 +18,8 @@ import { adminComponents } from '.'
     FontAwesomeModule,
     FormsModule,
     NgxSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
   ]
