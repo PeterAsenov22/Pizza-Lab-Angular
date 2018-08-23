@@ -35,6 +35,10 @@ export class OrderDetailsComponent extends BaseComponent implements OnInit {
           this.order = orders.userOrders.find(o => o._id === this.id)
         } else if (orders.pendingOrders.length > 0) {
           this.order = orders.pendingOrders.find(o => o._id === this.id)
+
+          if (!this.order && orders.approvedOrders.length > 0) {
+            this.order = orders.approvedOrders.find(o => o._id === this.id)
+          }
         }
       })
 

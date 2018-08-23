@@ -23,6 +23,9 @@
       <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
         <a class="nav-link" routerLink="/admin/orders/pending">Pending Orders</a>
       </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
+        <a class="nav-link" routerLink="/admin/orders/approved">Approved Orders</a>
+      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="nav-item" *ngIf="!authService.isAuthenticated()">

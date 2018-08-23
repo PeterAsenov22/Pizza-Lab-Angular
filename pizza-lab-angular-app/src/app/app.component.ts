@@ -37,6 +37,7 @@ export class AppComponent extends BaseComponent implements OnInit {
 
     if (this.authService.isAdmin()) {
       this.ordersService.getPendingOrders()
+      this.ordersService.getApprovedOrders()
     }
 
     this.subscription$ = this.store

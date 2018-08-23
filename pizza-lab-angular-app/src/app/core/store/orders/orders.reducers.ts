@@ -1,11 +1,12 @@
 import { DEAUTHENTICATE } from '../authentication/authentication.actions'
-import { GET_USER_ORDERS, SUBMIT_ORDER, GET_PENDING_ORDERS, APPROVE_ORDER } from './orders.actions'
+import { GET_USER_ORDERS, SUBMIT_ORDER, GET_PENDING_ORDERS, APPROVE_ORDER, GET_APPROVED_ORDERS } from './orders.actions'
 import { OrderModel } from '../../../components/orders/models/OrderModel'
 import { OrdersState } from './orders.state'
 
 const initialState: OrdersState = {
   userOrders: [],
-  pendingOrders: []
+  pendingOrders: [],
+  approvedOrders: []
 }
 
 function getUserOrders(state: OrdersState, orders: OrderModel[]) {
@@ -20,6 +21,12 @@ function getPendingOrders(state: OrdersState, orders: OrderModel[]) {
   })
 }
 
+function getApprovedOrders(state: OrdersState, orders: OrderModel[]) {
+  return Object.assign({}, state, {
+    approvedOrders: orders
+  })
+}
+
 function submitOrder(state: OrdersState, order: OrderModel) {
   return Object.assign({}, state, {
     userOrders: [...state.userOrders, order]
@@ -29,7 +36,8 @@ function submitOrder(state: OrdersState, order: OrderModel) {
 function removeOrders(state: OrdersState) {
   return Object.assign({}, state, {
     userOrders: [],
-    pendingOrders: []
+    pendingOrders: [],
+    approvedOrders: []
   })
 }
 
@@ -45,6 +53,8 @@ export function ordersReducer(state: OrdersState = initialState, action) {
       return getUserOrders(state, action.payload)
     case GET_PENDING_ORDERS:
       return getPendingOrders(state, action.payload)
+    case GET_APPROVED_ORDERS:
+      return getApprovedOrders(state, action.payload)
     case SUBMIT_ORDER:
       return submitOrder(state, action.payload)
     case APPROVE_ORDER:
