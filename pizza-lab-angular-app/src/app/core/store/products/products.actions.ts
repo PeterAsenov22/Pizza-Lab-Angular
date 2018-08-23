@@ -4,6 +4,7 @@ import { ReviewModel } from '../../../components/products/models/ReviewModel'
 
 export const GET_ALL = '[PRODUCTS] GET_ALL'
 export const CREATE_PRODUCT = '[PRODUCTS] CREATE'
+export const DELETE_PRODUCT = '[PRODUCTS] DELETE'
 export const ADD_REVIEW = '[PRODUCTS] ADD_REVIEW'
 export const LIKE_PRODUCT = '[PRODUCTS] LIKE'
 export const UNLIKE_PRODUCT = '[PRODUCTS] UNLIKE'
@@ -18,6 +19,12 @@ export class CreateProduct implements Action {
   readonly type: string = CREATE_PRODUCT
 
   constructor (public payload: ProductModel) { }
+}
+
+export class DeleteProduct implements Action {
+  readonly type: string = DELETE_PRODUCT
+
+  constructor (public id: string) { }
 }
 
 export class AddProductReview implements Action {

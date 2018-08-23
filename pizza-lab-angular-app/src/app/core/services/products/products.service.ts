@@ -10,13 +10,15 @@ import { CreateProductModel } from '../../../components/admin/models/CreateProdu
 import { ProductModel } from '../../../components/products/models/ProductModel'
 import { ReviewModel } from '../../../components/products/models/ReviewModel'
 
-import { GetAllProducts, AddProductReview, LikeProduct, UnlikeProduct, CreateProduct } from '../../store/products/products.actions'
+import { GetAllProducts, AddProductReview,
+  LikeProduct, UnlikeProduct, CreateProduct, DeleteProduct } from '../../store/products/products.actions'
 import { GetRequestBegin, GetRequestEnd } from '../../store/http/http.actions'
 import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/pizza/'
 const allProductsUrl = 'all'
 const createProductUrl = 'create'
+const deleteProductUrl = 'delete/'
 const addReviewUrl = 'review/'
 const likeProductUrl = 'like/'
 const unlikeProductUrl = 'unlike/'
@@ -60,6 +62,18 @@ export class ProductsService {
         this.spinner.hide()
         this.router.navigate(['/menu'])
         this.toastr.success('Product added successfully.')
+      })
+  }
+
+  deleteProduct(id: string, activeModal) {
+    this.spinner.show()
+    this.http
+      .delete(`${baseUrl}${deleteProductUrl}${id}`)
+      .subscribe(() => {
+        this.store.dispatch(new DeleteProduct(id))
+        this.spinner.hide()
+        activeModal.close()
+        this.toastr.success('Product deleted successfully.')
       })
   }
 

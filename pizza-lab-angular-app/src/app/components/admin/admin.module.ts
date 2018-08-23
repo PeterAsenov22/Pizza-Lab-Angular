@@ -5,13 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
 import { NgxSpinnerModule } from 'ngx-spinner'
 
-import { adminComponents } from '.';
-import { ProductDeleteModalComponent } from './product-delete-modal/product-delete-modal.component'
+import { adminComponents } from '.'
 
 @NgModule({
   declarations: [
-    ...adminComponents,
-    ProductDeleteModalComponent
+    ...adminComponents
   ],
   imports: [
     AdminRoutingModule,
