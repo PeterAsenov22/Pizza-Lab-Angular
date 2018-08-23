@@ -29,10 +29,12 @@ export class OrderDetailsComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id')
     this.subscription$ = this.store
-      .pipe(select(state => state.orders.userOrders))
+      .pipe(select(state => state.orders))
       .subscribe(orders => {
-        if (orders.length > 0) {
-          this.order = orders.find(o => o._id === this.id)
+        if (orders.userOrders.length > 0) {
+          this.order = orders.userOrders.find(o => o._id === this.id)
+        } else if (orders.pendingOrders.length > 0) {
+          this.order = orders.pendingOrders.find(o => o._id === this.id)
         }
       })
 

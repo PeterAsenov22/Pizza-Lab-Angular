@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store'
 
 import { AppState } from '../../store/app.state'
 import { ClearCart } from '../../store/cart/cart.actions'
-import { GetUserOrders, SubmitOrder } from '../../store/orders/orders.actions'
+import { GetUserOrders, SubmitOrder, GetPendingOrders, ApproveOrder } from '../../store/orders/orders.actions'
 import { OrderModel } from '../../../components/orders/models/OrderModel'
 import { OrderProductModel } from '../../../components/orders/models/OrderProductModel'
 import { NgxSpinnerService } from 'ngx-spinner'
@@ -13,7 +13,9 @@ import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/orders/'
 const userOrdersUrl = 'user'
+const pendingOrdersUrl = 'pending'
 const submitOrderUrl = 'submit'
+const approveOrderUrl = 'approve/'
 
 @Injectable()
 export class OrdersService {
@@ -45,6 +47,16 @@ export class OrdersService {
     })
   }
 
+  getPendingOrders() {
+    this.spinner.show()
+
+    this.http.get<OrderModel[]>(`${baseUrl}${pendingOrdersUrl}`)
+      .subscribe(orders => {
+        this.store.dispatch(new GetPendingOrders(orders))
+        this.spinner.hide()
+    })
+  }
+
   submitNewOrder(products: OrderProductModel[]) {
     this.spinner.show()
     this.http
@@ -55,5 +67,12 @@ export class OrdersService {
         this.spinner.hide()
         this.router.navigate(['/orders/my'])
       })
+  }
+
+  approveOrder(id: string) {
+    this.store.dispatch(new ApproveOrder(id))
+    this.http
+      .post(`${baseUrl}${approveOrderUrl}${id}`, {})
+      .subscribe()
   }
 }

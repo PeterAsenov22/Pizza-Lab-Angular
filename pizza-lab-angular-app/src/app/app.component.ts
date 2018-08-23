@@ -9,6 +9,7 @@ import { BaseComponent } from './components/base.component'
 import { ProductsService } from './core/services/products/products.service'
 import { OrdersService } from './core/services/orders/orders.service'
 import { delay } from 'rxjs/operators'
+import { UndoOrdersRequestMade } from './core/store/http/http.actions'
 
 @Component({
   selector: 'app-root',
@@ -30,8 +31,12 @@ export class AppComponent extends BaseComponent implements OnInit {
   ngOnInit () {
     this.productsService.getAllProducts()
 
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated() && !this.authService.isAdmin()) {
       this.ordersService.getUserOrders()
+    }
+
+    if (this.authService.isAdmin()) {
+      this.ordersService.getPendingOrders()
     }
 
     this.subscription$ = this.store

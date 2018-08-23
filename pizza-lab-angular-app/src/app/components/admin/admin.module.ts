@@ -7,6 +7,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
 import { SharedModule } from '../shared/shared.module'
 
 import { adminComponents } from '.'
+import { NgxPaginationModule } from '../../../../node_modules/ngx-pagination'
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { adminComponents } from '.'
     CommonModule,
     FontAwesomeModule,
     FormsModule,
+    NgxPaginationModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
     SharedModule
