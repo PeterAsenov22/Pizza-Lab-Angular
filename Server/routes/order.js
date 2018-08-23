@@ -53,6 +53,21 @@ router.get('/pending', authCheck, (req, res) => {
   }
 })
 
+router.get('/approved', authCheck, (req, res) => {
+  if (req.user.roles.indexOf('Admin') > -1) {
+    Order
+      .find({status: 'Approved'})
+      .then(orders => {
+        res.status(200).json(orders)
+      })
+  } else {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid credentials!'
+    })
+  }
+})
+
 router.post('/approve/:id', authCheck, (req, res) => {
   const orderId = req.params.id
   Order
