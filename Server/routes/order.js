@@ -8,6 +8,7 @@ router.post('/submit', authCheck, (req, res) => {
   const products = req.body
   let orderObj = {
     creator: req.user._id,
+    creatorEmail: req.user.email,
     products
   }
 

@@ -4,6 +4,7 @@ const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 
 let orderSchema = mongoose.Schema({
   creator: {type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE},
+  creatorEmail: {type: mongoose.Schema.Types.String, required: true},
   products: [],
   date: {type: mongoose.Schema.Types.Date, required: REQUIRED_VALIDATION_MESSAGE, default: Date.now},
   status: {
