@@ -24,14 +24,6 @@ export class ProductCardComponent {
     private router: Router,
     private modalService: NgbModal) { }
 
-  navigateToDetails () {
-    this.router.navigate([`/product/details/${this.product._id}`])
-  }
-
-  navigateToEdit () {
-    this.router.navigate([`/admin/product/edit/${this.product._id}`])
-  }
-
   addToCart () {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/cart'])

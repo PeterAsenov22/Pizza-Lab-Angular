@@ -29,13 +29,13 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-          <a class="nav-link border-none" (click)="openLoginModal()" href="javascript:void(0)">Login <fa-icon [icon]="faLogin"></fa-icon></a>
+          <a class="nav-link border-none" (click)="openLoginModal()">Login <fa-icon [icon]="faLogin"></fa-icon></a>
       </li>
       <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-        <a class="nav-link border-none" (click)="openRegisterModal()" href="javascript:void(0)">Register <fa-icon [icon]="faRegister"></fa-icon></a>
+        <a class="nav-link border-none" (click)="openRegisterModal()">Register <fa-icon [icon]="faRegister"></fa-icon></a>
       </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated()">
-          <a class="nav-link border-none" (click)="logout()" href="javascript:void(0)">Logout <fa-icon [icon]="faLogout"></fa-icon></a>
+          <a class="nav-link border-none" (click)="logout()">Logout <fa-icon [icon]="faLogout"></fa-icon></a>
       </li>
     </ul>
   </nav>
