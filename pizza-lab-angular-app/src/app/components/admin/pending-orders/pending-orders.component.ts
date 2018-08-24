@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs'
 import { Store, select } from '@ngrx/store'
 
 import { AppState } from '../../../core/store/app.state'
+import { animations } from './pending-orders.animation'
 import { BaseComponent } from '../../base.component'
 import { getTotalSum, toLocaleString } from '../../../core/utils/helperFunctions'
 import { OrderModel } from '../../orders/models/OrderModel'
@@ -12,7 +13,7 @@ import { UndoOrdersRequestMade } from '../../../core/store/http/http.actions'
 @Component({
   selector: 'app-pending-orders',
   templateUrl: './pending-orders.component.html',
-  styleUrls: ['./pending-orders.component.scss']
+  animations: animations
 })
 export class PendingOrdersComponent extends BaseComponent implements OnInit, OnDestroy {
   protected pageSize: number = 5
@@ -44,11 +45,8 @@ export class PendingOrdersComponent extends BaseComponent implements OnInit, OnD
   }
 
   approve(id: string) {
+    const order = this.pendingOrders.find(o => o._id === id)
     this.ordersService.approveOrder(id)
-  }
-
-  changePage (page) {
-    this.currentPage = page
   }
 
   trackByIds(index: number, order: OrderModel): string {

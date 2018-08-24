@@ -16,11 +16,7 @@
               </tr>
             </thead>
             <tbody *ngIf="pendingOrders.length > 0; else notFound">
-              <tr *ngFor="let o of pendingOrders | paginate: {
-                  id: 'allOrders',
-                  itemsPerPage: pageSize,
-                  currentPage: currentPage
-                }; trackBy: trackByIds; let i = index">
+              <tr [@pendingOrders] *ngFor="let o of pendingOrders; trackBy: trackByIds; let i = index">
                 <td>{{i + 1 + (currentPage-1)*5}}</td>
                 <td>{{toLocaleString(o.date)}}</td>
                 <td>$ {{getTotalSum(o.products).toFixed(2)}}</td>
@@ -39,19 +35,6 @@
       </div>
     </div>
   </div>
-  <pagination-controls
-    class="paginator"
-    id="allOrders"
-    (pageChange)="changePage($event)"
-    maxSize="9"
-    directionLinks="true"
-    autoHide="true"
-    previousLabel="Previous"
-    nextLabel="Next"
-    screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page"
-    screenReaderCurrentLabel="You're on page">
-  </pagination-controls>
   <ng-template #notFound>
     <h3 class="text-warning">{{notFoundMessage}}</h3>
   </ng-template>
