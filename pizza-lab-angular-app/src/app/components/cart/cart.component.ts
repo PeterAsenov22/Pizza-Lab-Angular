@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core'
 import { Store, select } from '@ngrx/store'
 import { Subscription } from 'rxjs'
 
+import { animations } from './cart.animations'
 import { AppState } from '../../core/store/app.state'
 import { BaseComponent } from '../base.component'
 import { ProductInCartModel } from './models/ProductInCartModel'
-import { SyncCart, RemoveFromCart, ClearCart } from '../../core/store/cart/cart.actions'
+import { SyncCart, RemoveFromCart } from '../../core/store/cart/cart.actions'
 import { OrdersService } from '../../core/services/orders/orders.service'
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  styleUrls: ['./cart.component.scss'],
+  animations: animations
 })
 export class CartComponent extends BaseComponent implements OnInit {
   protected products: ProductInCartModel[]
@@ -80,5 +82,9 @@ export class CartComponent extends BaseComponent implements OnInit {
     }
 
     this.ordersService.submitNewOrder(products)
+  }
+
+  trackByIds(index: number): number {
+    return index
   }
 }

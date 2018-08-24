@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let pr of products">
+      <tr [@products] *ngFor="let pr of products; trackBy: trackByIds">
        <td data-th="Product">
           <div class="row">
             <div class="col-sm-4 hidden-xs"><img src="{{pr.image}}" alt="..." class="cart-image" /></div>
