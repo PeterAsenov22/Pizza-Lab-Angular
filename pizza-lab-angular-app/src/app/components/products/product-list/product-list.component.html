@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div *ngIf="products.length > 0; else notFound" class="row space-top">
-      <div *ngFor="let product of products | paginate: {
+      <div [@productList] *ngFor="let product of products | paginate: {
         id: 'allProducts',
         itemsPerPage: pageSize,
         currentPage: currentPage
