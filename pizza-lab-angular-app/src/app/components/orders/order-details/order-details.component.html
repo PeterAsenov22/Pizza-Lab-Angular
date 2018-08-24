@@ -2,6 +2,10 @@
   <h1 class="text-center">Order #{{order._id}}</h1>
   <div class="row space-top">
     <div class="col-md-12 mt-3">
+      <p *ngIf="authService.isAdmin()">
+        <span class="font-weight-bold lead text-warning">Created By:</span>
+        <span class="ml-2 lead">{{order.creatorEmail}}</span>
+      </p>
       <p>
         <span class="font-weight-bold lead text-warning">Products In Order:</span>
         <span class="ml-2 lead">{{order.products.length}}</span>
