@@ -1,4 +1,4 @@
-<div class="container" style="padding-top: 25px;">
+<div class="container" style="padding-top: 25px;" *ngIf="orders">
   <h1 class="text-center">My Orders</h1>
   <div class="row" style="padding-top: 25px;">
     <div class="col-md-12">
@@ -14,13 +14,13 @@
                 <th>View</th>
               </tr>
             </thead>
-            <tbody *ngIf="!orders || orders.length > 0; else notFound">
+            <tbody *ngIf="orders.length > 0; else notFound">
               <tr *ngFor="let o of orders |  paginate: {
                   id: 'allOrders',
                   itemsPerPage: pageSize,
                   currentPage: currentPage
                 }; trackBy: trackByIds; let i = index">
-                <th>{{i + 1 + (currentPage-1)*5}}</th>
+                <td>{{i + 1 + (currentPage-1)*5}}</td>
                 <td>{{toLocaleString(o.date)}}</td>
                 <td>$ {{getTotalSum(o.products).toFixed(2)}}</td>
                 <td><span class="label label-info">{{o.status}}</span>
