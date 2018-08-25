@@ -57,8 +57,10 @@ export class CartComponent extends BaseComponent implements OnInit {
 
   onQuantChange(event, id) {
     const inputValue = event.target.value
-    if (!isNaN(inputValue)) {
+    if (!isNaN(inputValue) && parseInt(inputValue, 10) >= 1) {
       this.store.dispatch(new SyncCart(id, parseInt(inputValue, 10)))
+    } else {
+      this.store.dispatch(new SyncCart(id, 1))
     }
   }
 
