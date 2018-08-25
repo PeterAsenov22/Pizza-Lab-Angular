@@ -60,7 +60,7 @@ export class EditProductComponent extends BaseComponent implements OnInit {
           Validators.pattern('^(http|https):\/\/[a-zA-Z0-9]+.*$')]
         ],
         weight: [this.product.weight, [Validators.required, Validators.min(250), Validators.max(800)]],
-        price: [this.product.price, [Validators.required, Validators.min(0)]]
+        price: [this.product.price.toFixed(2), [Validators.required, Validators.min(0)]]
       })
     }
   }
