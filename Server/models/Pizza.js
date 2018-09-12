@@ -10,7 +10,7 @@ let pizzaSchema = new mongoose.Schema({
   price: {type: mongoose.Schema.Types.Number, required: REQUIRED_VALIDATION_MESSAGE},
   image: {type: mongoose.Schema.Types.String, required: REQUIRED_VALIDATION_MESSAGE},
   likes: [{type: mongoose.Schema.Types.String}],
-  reviews: []
+  reviews: [{type: mongoose.Schema.Types.ObjectId, default: [], ref: 'Review'}]
 })
 
 let Pizza = mongoose.model('Pizza', pizzaSchema)

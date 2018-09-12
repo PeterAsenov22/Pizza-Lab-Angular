@@ -1,6 +1,7 @@
 const express = require('express')
 const authCheck = require('../config/auth-check')
 const Pizza = require('../models/Pizza')
+const Review = require('../models/Review')
 
 const router = new express.Router()
 
@@ -52,6 +53,15 @@ function validatePizzaCreateForm (payload) {
     errors
   }
 }
+
+router.get('/all', (req, res) => {
+  Pizza
+    .find()
+    .populate('reviews')
+    .then(pizzas => {
+      res.status(200).json(pizzas)
+    })
+})
 
 router.post('/create', authCheck, (req, res) => {
   const pizzaObj = req.body
@@ -157,71 +167,41 @@ router.post('/edit/:id', authCheck, (req, res) => {
   }
 })
 
-router.get('/all', (req, res) => {
-  Pizza
-    .find()
-    .then(pizzas => {
-      res.status(200).json(pizzas)
-    })
-})
-
-router.post('/review/:id', authCheck, (req, res) => {
+router.delete('/delete/:id', authCheck, (req, res) => {
   const id = req.params.id
-  const review = req.body.review
-  const username = req.user.username
-
-  if (review.length < 4) {
-    const message = 'Review must be at least 4 characters long.'
-    return res.status(400).json({
-      success: false,
-      message: message
-    })
-  }
-
-  Pizza
-    .findById(id)
-    .then(pizza => {
-      if (!pizza) {
+  if (req.user.roles.indexOf('Admin') > -1) {
+    Pizza
+      .findById(id)
+      .then((pizza) => {
+        Review
+          .deleteMany({
+            _id: {
+              '$in': pizza.reviews
+            }
+          })
+          .then(() => {
+            pizza
+              .remove()
+              .then(() => {
+                return res.status(200).json({
+                  success: true,
+                  message: 'Pizza deleted successfully!'
+                })
+              })
+          })
+      })
+      .catch(() => {
         return res.status(400).json({
           success: false,
-          message: 'Product not found.'
+          message: 'Entry does not exist!'
         })
-      }
-
-      let reviewObj = {
-        review,
-        createdBy: username
-      }
-
-      let reviews = pizza.reviews
-      reviews.push(reviewObj)
-      pizza.reviews = reviews
-      pizza
-        .save()
-        .then((pizza) => {
-          res.status(200).json({
-            success: true,
-            message: 'Review added successfully.',
-            data: pizza
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-          const message = 'Something went wrong :( Check the form for errors.'
-          return res.status(400).json({
-            success: false,
-            message: message
-          })
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :( Check the form for errors.'
-      return res.status(400).json({
-        success: false,
-        message: message
       })
+  } else {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid credentials!'
     })
+  }
 })
 
 router.post('/like/:id', authCheck, (req, res) => {
@@ -318,35 +298,6 @@ router.post('/unlike/:id', authCheck, (req, res) => {
         message: message
       })
     })
-})
-
-router.delete('/delete/:id', authCheck, (req, res) => {
-  const id = req.params.id
-  if (req.user.roles.indexOf('Admin') > -1) {
-    Pizza
-      .findById(id)
-      .then((pizza) => {
-        pizza
-          .remove()
-          .then(() => {
-            return res.status(200).json({
-              success: true,
-              message: 'Pizza deleted successfully!'
-            })
-          })
-      })
-      .catch(() => {
-        return res.status(400).json({
-          success: false,
-          message: 'Entry does not exist!'
-        })
-      })
-  } else {
-    return res.status(401).json({
-      success: false,
-      message: 'Invalid credentials!'
-    })
-  }
 })
 
 module.exports = router
