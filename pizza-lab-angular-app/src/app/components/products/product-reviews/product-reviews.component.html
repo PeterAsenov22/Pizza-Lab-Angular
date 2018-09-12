@@ -22,9 +22,14 @@
     <div class="card text-black bg-light">
       <div class="card-body">
         <blockquote class="card-blockquote">
-          <p>{{r.review}}</p>
-          <footer class="review-footer">Created By:
-          <cite>{{r.createdBy}}</cite>
+          <p class="h6">{{r.reviewText}}</p>
+          <button class="btn btn-danger float-right btn-sm custom-button" *ngIf="authService.isAdmin() || r.creatorUsername === authService.getUsername()"><i class="fa fa-trash"></i></button>
+          <button class="btn btn-warning float-right btn-sm custom-button" *ngIf="authService.isAdmin() || r.creatorUsername === authService.getUsername()"><i class="fa fa-edit"></i></button>
+          <footer class="review-footer">
+            <cite class="text-capitalize footer-color">"{{r.creatorUsername}}"</cite>
+            <span class="review-date footer-color">
+              {{toLocaleString(r.lastModified)}}
+            </span>
           </footer>
         </blockquote>
       </div>

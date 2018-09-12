@@ -16,13 +16,13 @@ import { GetRequestBegin, GetRequestEnd } from '../../store/http/http.actions'
 import { ResponseDataModel } from '../../models/ResponseDataModel'
 
 const baseUrl = 'http://localhost:5000/pizza/'
-const allProductsUrl = 'all'
-const createProductUrl = 'create'
-const editProductUrl = 'edit/'
-const deleteProductUrl = 'delete/'
-const addReviewUrl = 'review/'
-const likeProductUrl = 'like/'
-const unlikeProductUrl = 'unlike/'
+const addReviewUrl = 'http://localhost:5000/reviews/create/'
+const allProductsUrl = baseUrl + 'all'
+const createProductUrl = baseUrl + 'create'
+const editProductUrl = baseUrl + 'edit/'
+const deleteProductUrl = baseUrl + 'delete/'
+const likeProductUrl = baseUrl + 'like/'
+const unlikeProductUrl = baseUrl + 'unlike/'
 const fiveMinutes = 1000 * 60 * 5
 
 @Injectable()
@@ -47,7 +47,7 @@ export class ProductsService {
 
     this.store.dispatch(new GetRequestBegin())
 
-    this.http.get<ProductModel[]>(`${baseUrl}${allProductsUrl}`)
+    this.http.get<ProductModel[]>(allProductsUrl)
       .subscribe(products => {
         this.store.dispatch(new GetAllProducts(products))
         this.store.dispatch(new GetRequestEnd())
@@ -57,7 +57,7 @@ export class ProductsService {
   createProduct(model: CreateProductModel) {
     this.spinner.show()
     this.http
-      .post(`${baseUrl}${createProductUrl}`, model)
+      .post(createProductUrl, model)
       .subscribe((res: ResponseDataModel) => {
         this.store.dispatch(new CreateProduct(res.data))
         this.spinner.hide()
@@ -69,7 +69,7 @@ export class ProductsService {
   editProduct(model: ProductModel) {
     this.spinner.show()
     this.http
-      .post(`${baseUrl}${editProductUrl}${model._id}`, model)
+      .post(`${editProductUrl}${model._id}`, model)
       .subscribe((res: ResponseDataModel) => {
         this.store.dispatch(new EditProduct(res.data))
         this.spinner.hide()
@@ -81,7 +81,7 @@ export class ProductsService {
   deleteProduct(id: string, activeModal) {
     this.spinner.show()
     this.http
-      .delete(`${baseUrl}${deleteProductUrl}${id}`)
+      .delete(`${deleteProductUrl}${id}`)
       .subscribe(() => {
         this.store.dispatch(new DeleteProduct(id))
         this.spinner.hide()
@@ -90,24 +90,28 @@ export class ProductsService {
       })
   }
 
-  addProductReview (model: ReviewModel, id: string) {
-    this.store.dispatch(new AddProductReview(model, id))
+  addProductReview (model, id: string) {
+    this.spinner.show()
     this.http
-      .post(`${baseUrl}${addReviewUrl}${id}`, model)
-      .subscribe()
+      .post(`${addReviewUrl}${id}`, model)
+      .subscribe((res: ResponseDataModel) => {
+        this.store.dispatch(new AddProductReview(res.data, id))
+        this.spinner.hide()
+        this.toastr.success('Review added successfully.')
+      })
   }
 
   likeProduct(id: string, username: string) {
     this.store.dispatch(new LikeProduct(id, username))
     this.http
-      .post(`${baseUrl}${likeProductUrl}${id}`, {})
+      .post(`${likeProductUrl}${id}`, {})
       .subscribe()
   }
 
   unlikeProduct(id: string, username: string) {
     this.store.dispatch(new UnlikeProduct(id, username))
     this.http
-      .post(`${baseUrl}${unlikeProductUrl}${id}`, {})
+      .post(`${unlikeProductUrl}${id}`, {})
       .subscribe()
   }
 }

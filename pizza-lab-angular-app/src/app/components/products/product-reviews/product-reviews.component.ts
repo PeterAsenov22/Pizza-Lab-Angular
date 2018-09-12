@@ -5,6 +5,7 @@ import { ReviewModel } from '../models/ReviewModel'
 
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service'
 import { ProductsService } from '../../../core/services/products/products.service'
+import { toLocaleString } from '../../../core/utils/helperFunctions'
 
 @Component({
   selector: 'app-product-reviews',
@@ -13,12 +14,13 @@ import { ProductsService } from '../../../core/services/products/products.servic
 })
 export class ProductReviewsComponent {
   protected reviewForm
+  protected toLocaleString = toLocaleString
   @Input() protected reviews: ReviewModel[]
   @Input() private id: string
 
   constructor (
     protected formBuilder: FormBuilder,
-    private authService: AuthenticationService,
+    protected authService: AuthenticationService,
     private productsService: ProductsService ) {
     this.createForm()
   }
@@ -31,8 +33,7 @@ export class ProductReviewsComponent {
     }
 
     const formValue = this.reviewForm.value
-    const reviewModel = new ReviewModel(formValue.review, this.authService.getUsername())
-    this.productsService.addProductReview(reviewModel, this.id)
+    this.productsService.addProductReview(formValue, this.id)
     this.reviewForm.reset()
   }
 
